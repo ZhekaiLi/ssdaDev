@@ -466,7 +466,7 @@ switch analysisopt.analysistype
       end
 
       % Run simulation analysis
-      [ssda_result, probdata ] = ss_da(1,probdata,analysisopt,gfundata,femodel,randomfield);
+      [ssda_result, probdata ] = ss_da_compareGPMs(1,probdata,analysisopt,gfundata,femodel,randomfield);
    
       if echo_flag
          
