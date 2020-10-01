@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogptrain</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogptrain
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Inference for Sparse Gaussian Processes.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+
+ogptrain(x_train, y_train)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p>The function <CODE>ogptrain(x_train,y_train)</CODE> takes the GLOBAL Gaussian
+Process data structure <CODE>net</CODE> and performs the following operations:
+<DL>
+
+<p><DT>-<DD><P> approximates the posterior process.
+
+<p><DT>-<DD><P> adjusts covariance function parameters.
+
+<p><DT>-<DD><P> adjusts likelihood function parameters.
+
+<p></DL>
+
+<p>The above steps constitute a single cycle in the EM algorithm built for the
+joint optimisation of the posterior process and the hyperparameters.
+
+<p>Notice that - due to the changes in the hyperparameters - the posterior
+process at the end of <a href="ogptrain.html"><CODE>ogptrain</CODE></a> is no longer optimal.  Thus, if
+prediction is wanted, then one should perform an extra computation step
+using <a href="ogppost.html"><CODE>ogppost</CODE></a>.  This is not done in <a href="ogptrain.html"><CODE>ogptrain</CODE></a>.
+
+<p>The calculations are governed by the fields of the GLOBAL structure
+<CODE>gpopt</CODE>: the indicators influencing calculation of the posterior are
+grouped into the sub-structure <CODE>gpopt.postopt</CODE>.
+
+<p>Given an approximation to the posterior process (step 1), we then adjust
+the parameters of the covariance kernel and the likelihood.  The covariance
+parameters are optimised using a conjugate gradient algorithm, the specific
+algorithm and the number of steps can be altered via the structure
+<CODE>gpopt.covopt</CODE>.
+
+<p>The optimisation of the likelihood parameters is done as the last step of
+the EM procedure.  It is independent of the optimisation of covariance
+function parameters.  It can be done using gradients (like <a href="g_l_gauss.html"><CODE>g_l_gauss</CODE></a>)
+or EM (see <a href="em_gauss.html"><CODE>em_gauss</CODE></a>).
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogppost.html">ogppost</a></CODE>, <CODE><a href="ogppak.html">ogppak</a></CODE>, <CODE><a href="ogpevid.html">ogpevid</a></CODE>, <CODE><a href="ogpevidgrad.html">ogpevidgrad</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

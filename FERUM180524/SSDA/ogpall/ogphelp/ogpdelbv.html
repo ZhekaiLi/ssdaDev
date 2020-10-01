@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpdelbv</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpdelbv
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Deletes the specified BVs from the BV set of the GP.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+ogpdelbv(ibv);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogpdelbv(ibv)</CODE> deletes the given BVs from the set of BVs. 
+
+<p>The operations are performed on the elements of the structures <CODE>net</CODE> and
+<CODE>ep</CODE>.
+
+<p>If the TAP/EP parameters have also been kept, then -- together with the
+removal of the BV's from the <CODE>net</CODE> structure -- the respective parts of
+the structure <CODE>ep</CODE> are also updated.
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>ibv</CODE><DD><P> - will be deleted. iBV is a row of indices.
+
+<p><DT><CODE>net</CODE><DD><P> - the GLOBAL OGP structure from which the BVs with index
+
+<p><DT><CODE>ep</CODE><DD><P> - the GLOBAL structure storing the TAP/EP parameters.
+</DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

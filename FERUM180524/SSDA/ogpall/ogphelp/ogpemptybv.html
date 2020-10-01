@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpemptybv</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpemptybv
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Adds input elements to the BV set without altering the GP.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[residErr] = ogpemtpybv(cx,iOpt,addMax);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogpemptybv(cx)</CODE> - increases the BV set in the
+Gaussian Process <CODE>net</CODE> by adding the inputs from <CODE>cx</CODE>.
+
+<p>The addition to the BV set is sequential (i.e. a single element of <CODE>cx</CODE>
+at each step) and if the feature-space distance <CODE>gamma</CODE> between the
+subspace determined by the BV set and the input is
+smaller than the threshold (stored in the structure <CODE>net</CODE>), then the
+respective input is not added.  This helps mantaining a well-conditioned
+Gram matrix.
+
+<p>A second form of adding elements to the BV set is to add them according to
+the "novelty" they bring, measured by the distance from the subspace
+determined by the existing BVs. This requires a nonzero value <CODE>iOpt</CODE> as
+the third argument to the function:
+<PRE>
+[net] = ogpemptybv(net,cx,iOpt)</PRE>
+<P>
+
+<p>There is a possibility to limit the number of added BVs by specifying a
+fourth argument
+
+<p><PRE>
+[net] = ogpemptybv(net,cx,iOpt,addMax)</PRE>
+<P>
+
+<p>which limits the maximum number of new BV additions to <CODE>addMax</CODE>.
+
+<p>If you want to limit the number of BVs and not have addition based on the
+distances (ie. <CODE>iOpt==0</CODE>), then you should call the function with four
+arguments, where the third is set to zero.
+
+<p>The additional output argument <CODE>residErr</CODE> tells the maximal distance of
+the new subspace from the input elements that were not included into the new
+BV set.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

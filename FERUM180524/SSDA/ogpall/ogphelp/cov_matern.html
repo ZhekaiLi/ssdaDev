@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            cov_matern</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> cov_matern
+</H1>
+<h2>
+Purpose
+</h2>
+<p>returns the Matern covariance function.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+
+covf = cov_matern(x1, x2)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>covf = cov_matern(x1, x2)</CODE> takes two matrices <CODE>x1</CODE>, <CODE>x2</CODE> of
+input vectors and computes the matrix of covariance function <CODE>covf</CODE>.  If
+called with a single input <CODE>x1</CODE>, the function returns the diagonal of
+<CODE>cov_matern(x1,x1)</CODE>.
+
+<p>This kernel function assumes that the output is one-dimensional.
+
+<p>
+
+<p><h2>
+Description of the Matern kernel
+</h2>
+<p>
+<p>This kernel is implemented as an external kernel, thus
+<CODE>net.covarfn='user'</CODE>.
+
+<p>As with the default kernel types, the field <CODE>net.kpar</CODE> 
+contains the input scales in the first <CODE>net.nin</CODE> variables followed by the
+amplitude and matern kernel order.
+
+<p>Since the type of the kernel is <CODE>user</CODE>, there are two additional fields
+in the structure <CODE>net</CODE>:
+<DL>
+<DT><CODE>kfnaddr</CODE><DD><P> - the address of the function returning the kernel
+  matrix.
+
+<p><DT><CODE>gradkaddr</CODE><DD><P> - the address of the function returning the gradient
+  of the covariance function w.r.t. a kernel parameter.
+</DL>
+
+<p>The Matern covariance function is computed as:
+<PRE>
+K(x,y) = A * (2*sqrt(b)|x-y|)^b*besselk(2*sqrt(b)*|x-y|,b)
+            /(2^(b-1)*gamma(b))</PRE>
+<P>
+
+<p>The positive constant <CODE>b</CODE> is the order of the kernel, stored as
+<CODE>b=exp(net.kpar(nin+2))</CODE> and the scale of the kernel is
+<CODE>A=exp(net.kpar(nin+1))</CODE>. The values of the absolute differences are
+computed using the inputs <CODE>x</CODE> and <CODE>y</CODE> weighted with the square root
+of the scaling constant.
+
+<p>The kernel parameters are taken from the global variable <CODE>net</CODE>.
+
+<p><CODE>besselk</CODE> is the modified Bessel function of the second kind.
+
+<p>If the order is above <CODE>100</CODE>, then the matern kernel is identical with
+the RBF kernel, and the gradient with respect to the order is set to zero.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogpcovarf.html">ogpcovarf</a></CODE>, <CODE><a href="ogpcovgrad.html">ogpcovgrad</a></CODE>, <CODE><a href="covgrad_matern.html">covgrad_matern</a></CODE>, <CODE><a href="demogp_matern.html">demogp_matern</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

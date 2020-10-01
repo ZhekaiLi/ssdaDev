@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            sinc</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> sinc
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Sin(pi*x)/(pi*x) function. (from MATLAB)
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>sinc(x)</CODE> returns a matrix whose elements are the <CODE>sinc</CODE> of the
+elements of <CODE>x</CODE> i.e.
+<PRE>
+
+     y = sin(pi*x)/(pi*x)    if x ~= 0
+       = 1                   if x == 0
+</PRE>
+<P>
+where <CODE>x</CODE> is an element of the input matrix and <CODE>y</CODE> is the resultant
+output element. (T. Krauss, 1-14-93 - (c) 1988-1999 The MathWorks)
+
+<p>See: SQUARE, SIN, COS, CHIRP, DIRIC, GAUSPULS, PULSTRAN, RECTPULS.
+
+<p>(this implementation is needed when generating toy data)
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="c_reg_gauss.html">c_reg_gauss</a></CODE>, <CODE><a href="c_reg_exp.html">c_reg_exp</a></CODE>, <CODE><a href="c_reg_lapl.html">c_reg_lapl</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

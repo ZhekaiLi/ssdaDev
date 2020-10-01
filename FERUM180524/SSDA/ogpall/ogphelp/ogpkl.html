@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpkl</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpkl
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Computes the KL-distance of the GP marginals.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+kl = ogpkl(net2, sameBV);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[kl]=ogpadjgp(net2)</CODE> computes the KL-distances between two
+Gaussian processes which use the same covariance function.  One of the
+Gaussian processes is given in the GLOBAL structure <CODE>net</CODE>, the second is
+ginven as a parameter.
+
+<p>The same kernel function for the two processes is essential: 
+this is needed to compute the KL-distance
+between GPs (exact computation is only possible in this case).
+
+<p>The computation is much faster if the BV sets for the GLOBAL <CODE>net</CODE> and
+<CODE>net2</CODE> are the same (i.e. when using a GP inference with fixed BV set or
+transductive learning). This is indicated with a third boolean argument
+<CODE>sameBV</CODE> set to a nonzero value.
+
+<p>This function can be used as a Cauchy-termination criterion to the online
+iterations, if the successive OGP structures are close in the KL-sense, this
+means that the aflgorithm has reached a stable solution.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="ogpcovarf.html">ogpcovarf</a></CODE>, <CODE><a href="ogpcovarp.html">ogpcovarp</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

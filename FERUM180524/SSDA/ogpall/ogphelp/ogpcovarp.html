@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpcovarp</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpcovarp
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Calculate the prior covariance for the Sparse GP.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[covp, covf] = ogpcovarp(x1, x2)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[covp, covf] = ogpcovarp(net, x1, x2)</CODE> considers the global OGP data
+structure <CODE>net</CODE> and the two matrices <CODE>x1</CODE>, <CODE>x2</CODE> of input
+vectors and computes the matrix of the prior covariance.  This is the
+function component of the covariance plus the exponential of the bias term.
+If called with a single input <CODE>x1</CODE>, the function returns only the
+diagonal of <CODE>ogpcovarp(x1,x1)</CODE>.
+
+<p><CODE>[covp, covf] = ogpcovarp(x1, x2)</CODE> also returns the function
+component of the covariance.
+
+<p>Relation between the function component and the value returned by
+<a href="ogpcovarp.html"><CODE>ogpcovarp</CODE></a> is
+<PRE>
+covp = exp(net.bias) + covf</PRE>
+<P>
+where <CODE>covf</CODE> is the covariance matrix returned by <a href="ogpcovarf.html"><CODE>ogpcovarf</CODE></a> and
+bias is added to each kernel element.
+
+<p>For the available covariance functions see <a href="ogpcovarf.html"><CODE>ogpcovarf</CODE></a>.
+
+<p>The variable <CODE>net</CODE> is global: the kernel parameters and the bias value
+are taken from this structure.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogpcovarf.html">ogpcovarf</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

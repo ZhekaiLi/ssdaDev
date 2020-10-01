@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            demogp_matern</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> demogp_matern
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Example to use an external covariance function.
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>demogp_matern</CODE> - script to exemplify the use of an external covariance
+function.  The function chosen is the Matern covariance function which
+allows the transition from a rough (once- or twice-differentiable) kernel to
+the infinitely many times differentiable RBF kernel (implemented in this
+package as <CODE>'sqexp'</CODE>).
+
+<p>The demonstration starts from sampling from a realisation of a GP with zero
+mean and a <CODE>matern</CODE> covariance of order <CODE>1.5</CODE>.
+This sample function is corrupted with additive Gaussian noise, then a GP
+with matern kernel - but different parameters - is trained on the samples.
+
+<p>In the demo script the experiments are repeated three times and different BV
+set sizes are also tested (to make it faster, change the parameters
+accordingly).
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="cov_matern.html">cov_matern</a></CODE>, <CODE><a href="sincdata.html">sincdata</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            err_abs</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> err_abs
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Computes the absolute error.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+
+[absAvg, absInd] = err_abs(likpar,y,mX,sigX2)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[absAvg] = err_abs(likpar,y,mX,sigX2)</CODE> - returns the sum of absolute
+errors.
+
+<p>The additional second output argument returns the individual absolute
+errors: 
+<CODE>[absAvg, absInd] = err_abs(likpar,y,mX,sigX2)</CODE>
+
+<p>The input argument <CODE>likpar</CODE> is not used.
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>likpar</CODE><DD><P> - the Gaussian Process data structure.
+
+<p><DT><CODE>y</CODE><DD><P> - desired output.
+
+<p><DT><CODE>mX</CODE><DD><P> - mean of the GP marginal at the new input.
+
+<p><DT><CODE>absAvg</CODE><DD><P> - the average absolute error.
+
+<p><DT><CODE>absInd</CODE><DD><P> - the vector of individual absolute errors.
+
+<p></DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE>, <CODE><a href="c_reg_lapl.html">c_reg_lapl</a></CODE>, <CODE><a href="c_reg_exp.html">c_reg_exp</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

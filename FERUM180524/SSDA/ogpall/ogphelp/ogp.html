@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogp</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogp
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Initialises the global net structure for the OGP toolbox.
+
+<p><h2>
+Synopsis
+</h2>
+<p>
+<p><PRE>
+ogp(nin,nout,covarfn,covpar, prmean, prmeanp)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogp(nin, nout, covarfn,covpar)</CODE> creates a Gaussian Process model in the
+GLOBAL structure <CODE>net</CODE> which has <CODE>nin</CODE> input and <CODE>nout</CODE> output
+dimensions.
+
+<p>The string in the field <CODE>covarfn</CODE> specifies the type of the
+covariance function to be used.  The parameters to the covariance function
+are given in <CODE>covpar</CODE>.  The available covariance functions are listed in
+<a href="ogpcovarf.html"><CODE>ogpcovarf</CODE></a>.
+
+<p>The function returns a data structure <CODE>net</CODE> with the rest of
+parameters set to zero. If <CODE>covpar</CODE> is not specified then the
+default values are assigned to it (description of implemented
+kernel functions is in <a href="ogpcovarf.html"><CODE>ogpcovarf</CODE></a>).
+
+<p><CODE>ogp(nin, nout, covarfn, covpar, prmean, prmeanp)</CODE> also sets a
+prior mean function to the Gaussian process. The address in <CODE>prmean</CODE> is
+the function returning the prior means at locations <CODE>currX</CODE>. The field
+<CODE>prmeanp</CODE> contains optional parameters to <CODE>prmean</CODE>.
+
+<p>The function <CODE>prmean</CODE> has the structure
+
+<p><PRE>
+[meanVec] = prmean(x,prmeanp);</PRE>
+<P>
+
+<p>The likelihood function and its parameters can be set in <a href="ogpinit.html"><CODE>ogpinit</CODE></a>,
+similarly to <CODE>prmean</CODE> (see <a href="ogpinit.html"><CODE>ogpinit</CODE></a>).
+
+<p>Additional parameters which influence the computation of the posterior GP
+and the re-calculation of the hyperparameters are changed directly, using
+the designed fields of the structure <CODE>net</CODE>.
+
+<p>The structure <CODE>net</CODE> is global, thus there is no need for it to be
+transmitted as a parameter.
+
+<p>
+
+<p><h2>
+Parameters
+</h2>
+<p>
+<p>The fields in the structure <CODE>net</CODE> are:
+<DL>
+<DT><CODE>type</CODE><DD><P> - fixed, the string <CODE>'ogp'</CODE>;
+
+<p><DT><CODE>nin,nout</CODE><DD><P> -  dimension of inputs and outputs respectively;
+
+<p><DT><CODE>thresh</CODE><DD><P> - lower limit to the score of a BV (see <a href="ogpbvmin.html"><CODE>ogpbvmin</CODE></a>),
+  no input with smaller score is included;
+
+<p><DT><CODE>maxBV</CODE><DD><P> - maximal size of BV set.
+  
+<DT><CODE>covarfn,kpar</CODE><DD><P> - parameters specifying the covariance function
+  (see <a href="ogpcovarf.html"><CODE>ogpcovarf</CODE></a>);
+
+<p><DT><CODE>bias</CODE><DD><P> - logarithm of constant offset in the covariance function
+  (see <a href="ogpcovarp.html"><CODE>ogpcovarp</CODE></a>);
+  
+<DT><CODE>inweights</CODE><DD><P> - logarithm of inverse length scale for each input; 
+
+<p><DT><CODE>prmean,prmeanp</CODE><DD><P> - address to the prior mean function and field
+  containing additional parameters. If <CODE>prmean</CODE> is unspecified, then the
+  prior mean is zero.
+
+<p><DT><CODE>BV</CODE><DD><P> - elements of the Basis Vector (<CODE>BV</CODE>) set (this
+  matrix is initially empty);
+
+<p><DT><CODE>w,C</CODE><DD><P> - parameters of the posterior mean and variance (initially empty);
+
+<p><DT><CODE>isBVfixed</CODE><DD><P> - whether to modify or not the set of Basis
+  Vectors <CODE>BV</CODE>. Keeping it fixed speeds up the inference process, buth
+  then one has to set the BV set in advance (using e.g. <a href="ogpemptybv.html"><CODE>ogpemptybv</CODE></a> or
+  <a href="ogptrain.html"><CODE>ogptrain</CODE></a> with a small subset of the data and <CODE>isBVfixed</CODE> set
+  to zero).
+
+<p><DT><CODE>proj</CODE><DD><P> - binary indicator variable specifying the KL-divergence
+  to use.  The default is the KL-divergence that matches the moments
+  (nonzero value to <CODE>proj</CODE>) and the negation leads to matching the
+  mean and variance at the <CODE>BV</CODE> locations.
+
+<p><DT><CODE>outtype</CODE><DD><P> - the type of the ``training'' data; a boolean-like
+  variable that can be either <CODE>'direct'</CODE>, which means that <CODE>yTrain</CODE>
+  must be of dimensionality <CODE>nout</CODE>. The string can also be
+  <CODE>'indirect'</CODE>, meaning that there is no need for the dimension of
+  <CODE>yTrain</CODE> to match <CODE>net.nout</CODE> but there has to be an ``desired
+  output''.  The third choice is <CODE>'none'</CODE>, meaning that there is no
+  desired output -- this is the case of unsupervised learning e.g. in
+  density estimation.
+
+<p><DT><CODE>KB,KBinv</CODE><DD><P> - storing the kernel matrix of the <CODE>BV</CODE> set and
+  its inverse - to speed up calculations.
+
+<p><DT><CODE>hyplambda,hypmean</CODE><DD><P> - values of prior precision and mean of the
+  OGP hyperparameters. This is often needed to ensure numerical stability of
+  the code.
+
+<p><DT><CODE>likpar</CODE><DD><P> - the vector of the likelihood parameters (see
+  <a href="ogpinit.html"><CODE>ogpinit</CODE></a>), specific to each likelihood function.
+
+<p><DT><CODE>likaddr,likoptfn</CODE><DD><P> - the address of tghe function to recompute
+  the likelihood parameters and the vector of optional parameters
+  used in the calculation (see e.g. <a href="em_gauss.html"><CODE>em_gauss</CODE></a> or <a href="em_lapl.html"><CODE>em_lapl</CODE></a>).
+</DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogpcovarf.html">ogpcovarf</a></CODE>, <CODE><a href="ogppak.html">ogppak</a></CODE>, <CODE><a href="ogpunpak.html">ogpunpak</a></CODE>, <CODE><a href="ogpfwd.html">ogpfwd</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

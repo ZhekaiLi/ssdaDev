@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogppost</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogppost
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Calculation of the sparse posterior
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+ogptrain(x_train, y_train)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogppost(x_train,y_train,its)</CODE> - considers the GLOBAL (prior) Gaussian
+Process structure <CODE>net</CODE> together with the training data
+<CODE>[x_train,y_train]</CODE> and sets the (posterior) Gaussian Process structure
+<CODE>net</CODE> using the training data within the online learning algorithm.  The
+number of sweeps through the dataset is <CODE>its</CODE>, if unspecified, its
+default value is <CODE>1</CODE>.
+
+<p>In Sparse online learning, by default the <CODE>BV</CODE> set changes, which
+implies significant matrix manipulation.  If we want the <CODE>BV</CODE> set to be
+constant, we need to set the indicator <CODE>isBVfixed</CODE> (e.g.
+<CODE>net.isBVfixed=1</CODE>).  This makes the code faster, but it also implies
+that one has to set the BV set ``manually'' (using <a href="ogpemptybv.html"><CODE>ogpemptybv</CODE></a>).
+Alternatively one should first make an iteration using the default <CODE>BV</CODE>
+set selection mechanism and then set <CODE>net.isBVfixed=1</CODE>.
+
+<p>The functions <a href="ogpost.html"><CODE>ogpost</CODE></a> and <CODE>ogptrain</CODE> use other two GLOBAL
+structures <CODE>ogptrain</CODE> and <CODE>ep</CODE>.  Setting the fields of these
+structures influences the way the posterior is computed.
+
+<p><CODE>ogppost(x_train,y_train)</CODE> - uses the GLOBAL structure
+<CODE>gpopt</CODE> to transmit/receive additional variables from/to the training,
+like eg.  the TAP/EP extension of the online learning, the test- or training
+errors and the various options to perform hyperparameter optimisation (see
+<a href="defoptions.html"><CODE>defoptions</CODE></a> for details).
+
+<p>Two sets of hyperparameters are distinguished: those related to the
+kernel function and those characterising the likelihood. The initialisation
+of the kernel parameters is done in <a href="ogp.html"><CODE>ogp</CODE></a> and those of the likelihood
+function in <a href="ogpinit.html"><CODE>ogpinit</CODE></a> (see the respective functions).
+Optimisation of the hyperparameters is implemented within the function
+<a href="ogptrain.html"><CODE>ogptrain</CODE></a>.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="ogpstep_full.html">ogpstep_full</a></CODE>, <CODE><a href="ogpstep_sp.html">ogpstep_sp</a></CODE>, <CODE><a href="defoptions.html">defoptions</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpreset</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpreset
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Resets the Gaussian Process.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+ogpreset;</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogpreset</CODE> resets the GLOBAL Gaussian Process structure <CODE>net</CODE> to its
+original state.
+
+<p>If elements can be added to the BV set, then the BV set itself is cleared,
+otherwise (ie. if <CODE>net.isBVfixed~=0</CODE>) the BV set is kept but other
+Gaussian Process parameters in <CODE>net</CODE> are set to zero.  One can use this
+function to reset the OGP if kernel parameters change.
+
+<p>If there exists a nonempty GLOBAL structure <CODE>ep</CODE>, then the fields in
+this structure are also reset to a default value.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

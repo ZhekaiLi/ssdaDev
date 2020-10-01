@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            g_l_gauss</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> g_l_gauss
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Recomputes the variance of the Gaussian noise using gradients
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[newLikPar] = g_l_gauss(oldLikPar,y,cavM,cavV,postM,postV);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[newLikPar] = g_l_gauss(oldLikPar,y,cavM,cavV,postM,postV)</CODE> -
+implements a conjugate gradient (SCG) algorithm for adjusting the noise
+variance in the Gaussian noise model.  The gradient steps are based on the
+approximation to the marginal likelihood (evidence) using the cavity
+distributions obtained with the TAP/EP framework.
+
+<p>This version uses the cavity means and variances of the GP approximation -
+unlike the EM-based method (<a href="em_gauss.html"><CODE>em_gauss</CODE></a>) which uses the posterior GP.
+
+<p>The algorithm employs the scaled conjugate gradient (<CODE>scg</CODE>) method from
+the <CODE>Netlab</CODE> toolbox.
+
+<p>A momentum term is introduced whih is aimed to stabilise the algorithm.
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>oldLikPar</CODE><DD><P> - the old (previous) value of the Gaussian noise
+  parameter.
+
+<p><DT><CODE>y</CODE><DD><P> - desired output.
+
+<p><DT><CODE>cavM,cavV</CODE><DD><P> - (cavity) mean and variance of the GP.
+
+<p><DT><CODE>postM,postV</CODE><DD><P> - mean and variance of the posterior process.
+  
+<DT><CODE>newLikPar</CODE><DD><P> - the new noise variance.
+</DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE>, <CODE><a href="c_reg_gauss.html">c_reg_gauss</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

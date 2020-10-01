@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpfwd</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpfwd
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Forward propagation through a Sparse OGP.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+
+[y_mean, y_var] = ogpfwd(x, ktest)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>y_mean = ogpfwd(x)</CODE> using the GLOBAL sparse OGP data structure
+<CODE>net</CODE> together with the matrix <CODE>x</CODE> of input vectors, the function
+forward propagates the inputs through the model to generate a matrix <CODE>y_mean</CODE>
+of posterior means.  Each row of <CODE>x</CODE> corresponds to one
+input vector and each row of <CODE>y_mean</CODE> corresponds to one output
+vector, the mean of the approximated posterior GP.
+
+<p><CODE>[y_mean, y_var] = ogpfwd(x)</CODE> also generates a column
+vector <CODE>y_var</CODE> of conditional variances, each row
+corresponds to the variance of an input pattern.
+
+<p>If the network output has more than a single dimension, then the outputs
+(both <CODE>y_mean</CODE> and <CODE>y_var</CODE>) will be <CODE>[nout*nX,1]</CODE> and
+<CODE>[nout*nX,nout]</CODE> respectively.
+
+<p><CODE>[y_mean, y_var] = ogpfwd(net, x, ktest)</CODE> uses a
+pre-computed covariance matrix <CODE>ktest</CODE> between the inputs <CODE>x</CODE> and
+the BV set in the forward propagation.
+It assumes that the inputs and the BV set elements do not change. This
+increases efficiency when several calls to <CODE>ogpfwd</CODE> are made.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpevid</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpevid
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Evaluates the evidence for Sparse OGP.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+evid = ogpevid(hp);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>evid = ogpevid</CODE> with the use of the GLOBAL Gaussian Process data
+structure <CODE>net</CODE> and -- if present -- the parameters of the TAP/EP
+structure <CODE>ep</CODE>, the function returns the negative log-evidence of the
+data. 
+
+<p>Prior to evaluation of the evidence the parameters of the model are
+recomputed.  The update does not occur if <CODE>hp</CODE> is empty or there is no
+input specified.  The format of the parameter vector <CODE>hp</CODE> is specified
+by <CODE>ogppak</CODE>.
+
+<p>If the structure <CODE>ep</CODE> is not empty, then the computation of the
+evidence includes terms from the TAP/EP approximation scheme.
+
+<p>If the TAP/EP representation of the Gaussian process is not given, then the
+returned value is only approximate.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpcovarf.html">ogpcovarf</a></CODE>, <CODE><a href="ogppak.html">ogppak</a></CODE>, <CODE><a href="ogpevidgrad.html">ogpevidgrad</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            sincdata</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> sincdata
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Generates one-dimensional sinc test data.
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[x,y] = sincdata(type,n,var,fname,row)</CODE> - noisy realisation of <CODE>y =
+  sin(x)/x</CODE>.
+
+<p>The parameters: 
+
+<p><DL>
+
+<p><DT><CODE>type</CODE><DD><P> - the type of the additive noise. Recognised types are:
+  'gauss', 'laplace', and 'posexp'.
+
+<p><DT><CODE>n</CODE><DD><P> - the number of samples.
+
+<p><DT><CODE>var</CODE><DD><P> - the noise (variance).
+  
+<DT><CODE>fname</CODE><DD><P> - the name of the file where to write the samples. If the
+  string is empty (or the function has only three parameters), then no file
+  is written.
+
+<p><DT><CODE>row</CODE><DD><P> - if this option is set, then the input positions <CODE>x</CODE>
+  are not random but evenly spaced.
+
+<p></DL>
+
+<p>The input <CODE>x</CODE> is in <CODE>[-xrange,xrange]</CODE> and
+<CODE>y=yrange*sinx(x/xrange)</CODE>.
+
+<p>The default values of the scaling parameters are <CODE>xrange=20</CODE> and
+<CODE>yrange=5</CODE>.  These defaults can be altered by having two
+additional parameters (<CODE>7</CODE> in total) when calling <CODE>sincdata</CODE>:
+
+<p><PRE>
+[x,y] = sincdata(type,n,var,fname,row,range,yrange)</PRE>
+<P>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="c_reg_gauss.html">c_reg_gauss</a></CODE>, <CODE><a href="c_reg_exp.html">c_reg_exp</a></CODE>, <CODE><a href="c_reg_lapl.html">c_reg_lapl</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE>, <CODE><a href="sinc2data.html">sinc2data</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

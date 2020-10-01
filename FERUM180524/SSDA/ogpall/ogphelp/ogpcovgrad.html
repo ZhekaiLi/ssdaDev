@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpcovgrad</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpcovgrad
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Evaluate gradient for kernel parameters (except bias) for the Sparse GP
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+covf = ogpcovgrad(net,xTrain);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>g = ogpcovgrad(net)</CODE> takes a Sparse OGP data structure <CODE>net</CODE> and
+evaluates the gradient <CODE>g</CODE> of the negative log-likelihood with respect
+to the hyperparameters of the model. The output <CODE>g</CODE> is a matrix with
+columns of length <CODE>#BV^2</CODE> (the kernel matrix is put into vector format).  Each
+column in <CODE>g</CODE> corresponds to a hyper-parameter and the order is provided
+by <CODE>ogppak</CODE>.
+
+<p><CODE>g = ogpcovgrad(net,xTrain)</CODE> additionally to the data structure
+<CODE>net</CODE>, the procedure takes the elements of the training set <CODE>xTrain</CODE>
+and returns on the columns the derivatives of the kernel function.  The
+result is thus a matrix with (<CODE>nBV x nTr</CODE>) lines and the number of
+columns the number of hyperparameters.
+
+<p>If the kernel is specified by the user - i.e. kernel type is <CODE>'USER'</CODE> -
+then the last group of parameters is given by the user and there must exist
+a field <CODE>'fngrad'</CODE> in the structure <CODE>'net.kpar'</CODE>.  For details on
+specifying a different kernel see the documentation for function <a href="ogpcovarf.html"><CODE>ogpcovarf</CODE></a>.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogppak.html">ogppak</a></CODE>, <CODE><a href="ogpevidgrad.html">ogpevidgrad</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

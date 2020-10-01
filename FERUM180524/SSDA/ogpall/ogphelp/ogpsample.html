@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpsample</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpsample
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Generates samples from a Gaussian process.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+samp = ogpsample(x, approx, kxx, kxbv, rseed);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogpsample(x)</CODE> takes a GLOBAL Spase OGP data structure <CODE>net</CODE>
+together with a matrix <CODE>x</CODE> of input vectors and returns a matrix of
+realisations of the marginal Gaussian distribution at the inputs <CODE>x</CODE>
+
+<p><CODE>samp = ogpsample(net, x, approx)</CODE>,with the binary
+indicator <CODE>approx</CODE> set to nonzero,samples from a restricted subspace by
+inverting only the covariance matrix correpsonding to the BV set and
+ignoring the Schuur complement of <CODE>Kxx</CODE> with respect to <CODE>Kbv</CODE>.
+
+<p><CODE>samp = ogpsample(net, x_inputs, approx, kxx, kxbv)</CODE> uses the
+pre-computed prior covariance matrices <CODE>kxx</CODE> and <CODE>kxbv</CODE> to generate
+the samples. This increases efficiency if several calls to <a href="ogpsample.html"><CODE>ogpsample</CODE></a>
+are made.
+
+<p>The time required for this sampling procedure is cubic with respect to the
+size of the inputsdue to the inversion of the covariance matrix.  Use it
+with caution.
+
+<p>If <CODE>approx</CODE> is used, then there are ``only'' as many random variables
+generated as many <CODE>BV</CODE> points are in the Gaussian process structure
+<CODE>net</CODE>, meaning that matrix inversion of the size of the <CODE>BV</CODE> set is
+to be performed.
+
+<p><CODE>samp = ogpsample(net, x, approx, kxx, kxbv, rseed)</CODE> includes the option
+of specifying the seed for the random number generator. Used to generate the
+same random numbers in repeated samples -- for different kernels.  If the
+matrices are not computed, then empty matrices <CODE>[]</CODE> should be used instead.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogpfwd.html">ogpfwd</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

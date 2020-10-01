@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            c_reg_exp</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> c_reg_exp
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Online update coeffs. for regression with positive exponential noise.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[loglik,K1,K2] = c_reg_exp(likpar,y,mx,varx);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[loglik,K1,K2] = c_reg_exp(likpar,y,mx,varx)</CODE> - returns the coefficients
+for the online update of the GP regression with single-sided noise. 
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>likpar</CODE><DD><P> - the noise parameter (<CODE>lambda=net.likpar</CODE>).
+
+<p><DT><CODE>y</CODE><DD><P> - observed noisy output.
+
+<p><DT><CODE>mx</CODE><DD><P> - mean of the GP marginal at the new input.
+
+<p><DT><CODE>varx</CODE><DD><P> - the variance of the GP marginal at the new input.
+
+<p><DT><CODE>loglik</CODE><DD><P> - the logarithm of the averaged likelihood function.
+
+<p><DT><CODE>K1,K2</CODE><DD><P> - the first and second derivatives of <CODE>loglik</CODE>.
+</DL>
+
+<p><h2>
+Likelihood function
+</h2>
+<p>
+<p>The likelihood function is
+
+<p><PRE>
+P(y|x,lambda) = exp(-(x-y)/lambda)/lambda;</PRE>
+<P>
+
+<p>for values of <CODE>x</CODE> and <CODE>y</CODE> that satisfy <CODE>y>x</CODE>
+
+<p>(see matlab code for details).
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="ogpfwd.html">ogpfwd</a></CODE>, <CODE><a href="err_abs.html">err_abs</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

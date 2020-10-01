@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            covgrad_matern</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> covgrad_matern
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Returns the gradient of the Matern kernel.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+
+g = covgrad_matern(xTrain,covf)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>g = covgrad_matern</CODE> computes the derivative of the Matern kernel.  If
+an input <CODE>xTrain</CODE> is present, then it is assumed that the gradient of
+the matrix <CODE>cov_matern(net.xTrain,net.BV)</CODE> is computed.
+
+<p>The kernel parameters are taken from the global variable <CODE>net</CODE>.
+
+<p>With two parameters it is assumed that the covariance matrix of the <CODE>BV</CODE>
+set and <CODE>xTrain</CODE> has been computed and a kernel matrix computation is
+spared.
+
+<p>A further reduction in memory requirements is when we ask only a single
+column of the gradient matrix, specified by a third argument:
+<PRE>
+g = covgrad_matern(xTrain,covf,iPar)</PRE>
+<P>
+
+<p>If <CODE>iPar==0</CODE> then all gradient elements are computed and returned. Often
+this operation fails due to memory requirements.
+
+<p>There is no analytical formula to differentiate the Bessel function with
+respect to its order, thus numerical (finite difference) approximation is
+employed.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogpcovgrad.html">ogpcovgrad</a></CODE>, <CODE><a href="cov_matern.html">cov_matern</a></CODE>, <CODE><a href="demogp_matern.html">demogp_matern</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

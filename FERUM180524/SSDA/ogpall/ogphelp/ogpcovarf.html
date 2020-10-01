@@ -1,0 +1,171 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpcovarf</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpcovarf
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Calculate the covariance function for the OGP.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+covf = ogpcovarf(x1, x2)</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>covf = ogpcovarf(x1, x2)</CODE> considers the global OGP data structure
+<CODE>net</CODE> together with two matrices <CODE>x1</CODE>, <CODE>x2</CODE> and
+computes the matrix of covariance function <CODE>covf</CODE>.  If called with a
+single input <CODE>x1</CODE>, the function returns only the diagonal of
+<CODE>ogpcovarf(x1,x1)</CODE>.
+
+<p>If the output is not one-dimensional, then the returned matrix has
+<CODE>nout</CODE> times the lenght of the inputs <CODE>x1</CODE> and <CODE>x2</CODE>
+respectively.  Using a single input set gives the covariance function as
+<CODE>dim(x1),nout,nout</CODE> three dimensional matrix.
+
+<p>The scalar product (or distances) between inputs <CODE>x1</CODE> and <CODE>x2</CODE> are
+computed using the scaling from <CODE>exp(net.kpar(1:net.nin))</CODE>. For all
+covariance types there is an amplitude <CODE>exp(net.kpar(net.nin+1))</CODE>. Other
+kernel-specific parameters can be specified at higher positions:
+<CODE>net.kpar(net.nin+2)</CODE> and above.  The number of parameters in the kernel
+function can be arbitrarily high.
+
+<p>The available kernel functions are the following:
+<DL>
+
+<p><DT><CODE>'sqexp'</CODE><DD><P> - squared exponential.
+
+<p><DT><CODE>'polyexp'</CODE><DD><P> - polynomial exponential kernel. A product of the
+  exponential and the polynomial kernels.
+
+<p><DT><CODE>'ratquad'</CODE><DD><P> - rational quadtratic kernel. The order of the kernel
+  function is <CODE>net.kpar(2)</CODE>.
+
+<p><DT><CODE>'poly'</CODE><DD><P> - polynomial kernel.  The order of the polynomial is
+  <CODE>exp(net.kpar(2))</CODE>.
+
+<p><DT><CODE>'linspline'</CODE><DD><P> - linear spline kernel.
+  
+<DT><CODE>'sinc'</CODE><DD><P> - the sinc kernel with frequency cutoff at
+  <CODE>exp(net.kpar(2))</CODE>.
+
+<p><DT><CODE>'fsin'</CODE><DD><P> - the <CODE>fsin</CODE> kernel used in density estimation.
+
+<p><DT><CODE>'user'</CODE><DD><P> - user-specified kernel function.
+</DL>
+
+<p>If the user-specified covariance function is used,
+i.e. <CODE>net.covarfn='user'</CODE>, <CODE>net.kpar</CODE> still contains the
+hyperparameters - the parameters of the kernel, but there are two additional
+fields in the GLOBAL structure <CODE>net</CODE>:
+<DL>
+
+<p><DT><CODE>kfnaddr</CODE><DD><P> - the address of the function that
+  returns the covariance kernel.
+
+<p><DT><CODE>gradkaddr</CODE><DD><P> - the address of the function returning the gradient
+  of the kernel w.r.to the kernel parameters.
+
+<p></DL>
+
+<p>An example is <a href="cov_matern.html"><CODE>cov_matern</CODE></a> which implements the Matern covariance
+function.
+
+<p>
+
+<p><h2>
+Description of kernel functions
+</h2>
+<p>
+<p>In all cases the inputs are rescaled.  The input weights
+<CODE>exp(net.kpar(1:net.nin))</CODE> are the diagonal elements of the metric, ie.
+the input is scaled with the square root of the weights before any
+operations are made.
+
+<p>If the multiplicative prefactor <CODE>exp(net.kpar(net.nin+1))</CODE> is denoted
+with <CODE>'A'</CODE> and <CODE>net.kpar(net.nin+2)</CODE> with <CODE>nu</CODE>, then the kernels
+are computed as follows:
+<DL>
+<DT><CODE>'sqexp'</CODE>:<DD><P>
+<PRE>
+K(x,y) = A * exp( -|x-y|^2 /2)</PRE>
+<P>
+
+<p><DT><CODE>'polyexp'</CODE>:<DD><P>
+<PRE>
+K(x,y) = A * (1+|x-y|)^p * exp( -|x-y|^2 /2)</PRE>
+<P>
+
+<p><DT><CODE>'ratquad'</CODE>:<DD><P>
+<PRE>
+K(x,y) = A * ( 1 + |x-y|^2)^(-nu)</PRE>
+<P>
+
+<p><DT><CODE>'poly'</CODE>:<DD><P>
+<PRE>
+K(x,y) = A * ( 1 + x^T * y )^nu</PRE>
+<P>
+
+<p><DT><CODE>'linspline'</CODE><DD><P> for positive inputs (for multidimensional inputs
+  the results from the one-dimensional case are added):
+<PRE>
+K(x,y) = A * (min(x,y)^3/3 + min(x,y)^2*abs(x-y)/2 + x*y + 1)</PRE>
+<P>
+
+<p><DT><CODE>'sinc'</CODE><DD><P> for the multidimensional case the results are added (the
+  prefactors <CODE>'A'</CODE> can differ for each input dimension):
+<PRE>
+K(x,y) = A * sinc( (x-y) )</PRE>
+<P>
+
+<p><DT><CODE>'fsin'</CODE><DD><P> where <CODE>(x-y)</CODE> is rescaled to <CODE>[0,1]</CODE>:
+<PRE>
+K(x,y) = A * (-cos(2*pi*nu(x-y))+sin(2*pi*nu*(x-y)))*cotg(pi*(x-y))</PRE>
+<P>
+
+<p><DT><CODE>'user'</CODE><DD><P> - the covariance function specified by the user. It
+  references an external function at the address <CODE>net.kfnaddr</CODE> which The
+  field <CODE>net.kpar.fnaddr</CODE> has the address of the function that computes
+  the kernel. The function has the syntax:
+  <PRE>
+covf = FNAME(x1,x2)</PRE>
+<P>
+
+<p>  and the parameters are from <CODE>net.kpar</CODE>.  Called with a single
+  argument, the function should return only the diagonal of the
+  kernel matrix (speedup of the computation).
+  
+  If hyperparameter optimisation is aimed, then the structure
+  <CODE>net.gradkaddr</CODE> which returns the gradient of the kernel function with
+  respect to the kernel parameters. An example is implemented in
+  <CODE>covgrad_matern</CODE>, see the documentation and source from there.
+
+<p>  As an example, the Matern covariance function is presented in
+  <a href="cov_matern.html"><CODE>cov_matern</CODE></a>. See the documentation of the matern covariance kernel
+  for a description and the <CODE>Matlab</CODE> code for details.
+</DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogpinit.html">ogpinit</a></CODE>, <CODE><a href="ogpcovarp.html">ogpcovarp</a></CODE>, <CODE><a href="ogpcovdiag.html">ogpcovdiag</a></CODE>, <CODE><a href="cov_matern.html">cov_matern</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

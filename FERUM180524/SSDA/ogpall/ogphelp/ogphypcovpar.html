@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogphypcovpar</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogphypcovpar
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Initialises the Sparse Gaussian Process hyperparameters.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+ogphypcovpar(hyplambda, hypmean)</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogphypcovpar(hyplambda)</CODE> initialises the hyperparameter vector of the
+Sparse Gaussian Process structure <CODE>net</CODE>, where <CODE>hyplambda</CODE> specifies
+the precision (inverse variance) of the parameters - where the parameter
+order is given by the function <a href="ogppak.html"><CODE>ogppak</CODE></a>.  Since several parameters have to
+be positive, <a href="ogppak.html"><CODE>ogppak</CODE></a> usually contains the log-transformed parameters,
+forcing positivity.
+
+<p>If a single parameter is given, zero mean is assumed to the (log)parameters
+except for the input scales which are initialised to <CODE>-4.605-log(2*nin)</CODE> which
+supposes a preference for lengthscales of order <CODE>100</CODE> increasing with
+the number of dimensions.
+
+<p>If unnormalised inputs are used, then it is advised to have the mean values
+initialised to values proportional to negative log-variance.  The inference
+on the hyper-parameter level is ML2 inference, thus vague priors are
+beneficial for the stability of the algorithm.
+
+<p>A manual setup of the hyperparameters is recommended only if some specific
+knowledge about the data is known.
+
+<p>The function sets the fields of the GLOBAL variable <CODE>net</CODE>.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogppak.html">ogppak</a></CODE>, <CODE><a href="ogpcovarp.html">ogpcovarp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

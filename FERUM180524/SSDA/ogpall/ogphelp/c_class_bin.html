@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            c_class_bin</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> c_class_bin
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Online update coeffs. for binary classification.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[loglik,K1,K2] = c_class_bin(likpar,y,mx,varx);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[loglik,K1,K2] = c_class_bin(likpar,y,mx,varx,pM)</CODE> - returns the coefficients
+for the online update of the GP assuming classification. 
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>likpar</CODE><DD><P> - the likelihood parameter (output noise).
+
+<p><DT><CODE>y</CODE><DD><P> - observed noisy labels.
+
+<p><DT><CODE>mx</CODE><DD><P> - mean of the GP marginal at the new input.
+
+<p><DT><CODE>varx</CODE><DD><P> - the variance of the GP marginal at the new input.
+
+<p><DT><CODE>loglik</CODE><DD><P> - the logarithm of the averaged likelihood function.
+
+<p><DT><CODE>K1,K2</CODE><DD><P> - the first and second derivatives of <CODE>loglik</CODE>.
+</DL>
+
+<p>Although in practice not important, the noise variance is net.likpar(1)
+which should be set to a nonzero value when initialising the model.
+
+<p><h2>
+Likelihood function
+</h2>
+<p>
+<p>The likelihood function is
+<PRE>
+
+Phi(x) = int(exp(-t^2/2),-infty,x+pM)/sqrt(2*pi)
+</PRE>
+<P>
+which has the advantage of providing analytic formulae for the log-average.
+
+<p>(see matlab code for details).
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="err_2class.html">err_2class</a></CODE>, <CODE><a href="demogp_class.html">demogp_class</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

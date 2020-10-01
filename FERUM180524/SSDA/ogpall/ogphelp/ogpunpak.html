@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpunpak</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpunpak
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Puts hyperparameters back into the Sparse OGP. 
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+ogpunpak(hp)
+</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogpunpak(hp)</CODE> takes the GLOBAL Gaussian process structure <CODE>net</CODE>,
+the GLOBAL structure <CODE>ep</CODE> of TAP/EP parameters together with a
+hyperparameter vector <CODE>hp</CODE>, and returns a Gaussian Process identical to
+the input model, except that the covariance bias <CODE>bias</CODE>, the input
+weight vector parametrised by <CODE>net.kpar(1:net.nin)</CODE> and the covariance
+function specific parameters in <CODE>kpar</CODE> have all been set to the
+corresponding elements of <CODE>hp</CODE>.  The function updates the inverse kernel
+matrix.
+
+<p>The TAP/EP parameters are computed only if we ask for it -- no computation
+time is wasted.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogppak.html">ogppak</a></CODE>, <CODE><a href="ogpevidgrad.html">ogpevidgrad</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            matern</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> matern
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Computes the Matern kernel
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+k = matern(nu, sigma, d);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>k = matern(nu, sigma, d)</CODE> computes the value of the Matern kernel of
+order <CODE>nu</CODE> and scales the output with factor <CODE>sigma</CODE>.
+
+<p>The inputs <CODE>nu</CODE> and <CODE>sigma</CODE> have to be scalars and the output has
+the dimensionality of the third input argument.  The implementation uses
+the scaled version of <CODE>besselk</CODE> which has a more stable behaviour for
+large orders of the Bessel function.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="cov_matern.html">cov_matern</a></CODE>, <CODE><a href="covgrad_matern.html">covgrad_matern</a></CODE>, <CODE><a href="demogp_matern.html">demogp_matern</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

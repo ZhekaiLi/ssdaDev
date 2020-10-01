@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Online GP Toolbox - Reference Documentation</title>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <link rel=StyleSheet href="style.css" type="text/css">
+    <link rel="icon" href="fav.ico">
+  </head>
+  <body>
+    <H1>Online Gaussian Process Toolbox - Reference Documentation</H1>
+    <p>Welcome to the Online Gaussian Processes (OGP) 
+       online documentation pages.
+    <p>The OGP software package implements general Bayesian 
+       inference using Gaussian Processes as latent variables.  The package
+       allows the usage of a large variety of likelihood functions ranging
+       from the standard normal noise assumption for regression tasks to the
+       use of local inverse models in data assimilation.<p>
+       Additionally to flexibility, the OGP package also builds a 
+       <b>sparse representation</b> to the posterior process, allowing
+       efficient inference for very datasets.
+    <p>The code uses the NETLAB package
+       (<a href="http://www.ncrg.aston.ac.uk/netlab">
+       <tt>http://www.ncrg.aston.ac.uk/netlab</tt></a>) and is based on the 
+       the paper <I>Sparse Online Gaussian Processes</I> 
+       (Csat&oacute; & Opper, Neural Computation 14/3, 2002).
+    <p>The online reference documentation provides direct hypertext links 
+       to specific function descriptions in the Online Gaussian Process 
+       Toolbox.
+
+    <p>Any comments or problems: contact Lehel Csat&oacute; (<tt>csatol_at_aston_dot_ac_dot_uk</tt>)<br><H1> Index
+</H1>
+<p>An alphabetic list of functions in the Online GP Toolbox.<p>
+<DL>
+<DT>
+<CODE><a href="c_class_bin.html">c_class_bin</a></CODE><DD>
+ Online update coeffs. for binary classification. 
+<DT>
+<CODE><a href="c_reg_exp.html">c_reg_exp</a></CODE><DD>
+ Online update coeffs. for regression with positive exponential noise. 
+<DT>
+<CODE><a href="c_reg_gauss.html">c_reg_gauss</a></CODE><DD>
+ Online update coeffs. for regression with Gaussian noise. 
+<DT>
+<CODE><a href="c_reg_lapl.html">c_reg_lapl</a></CODE><DD>
+ Online update coeffs. for regression with Laplace noise. 
+<DT>
+<CODE><a href="cl_data.html">cl_data</a></CODE><DD>
+ Generates two-dimensional dataset for classification. 
+<DT>
+<CODE><a href="cov_matern.html">cov_matern</a></CODE><DD>
+ returns the Matern covariance function. 
+<DT>
+<CODE><a href="covgrad_matern.html">covgrad_matern</a></CODE><DD>
+ Returns the gradient of the Matern kernel. 
+<DT>
+<CODE><a href="defoptions.html">defoptions</a></CODE><DD>
+ sets the ``gpopt'' structure to default values. 
+<DT>
+<CODE><a href="demogp_class.html">demogp_class</a></CODE><DD>
+ Two-dimensional binary classification example. 
+<DT>
+<CODE><a href="demogp_class_gui.html">demogp_class_gui</a></CODE><DD>
+ Graphical frontend for Onlinde Gaussian Process classification. 
+<DT>
+<CODE><a href="demogp_fixed.html">demogp_fixed</a></CODE><DD>
+ Gaussian Process regression using a fixed set of basis vectors. 
+<DT>
+<CODE><a href="demogp_matern.html">demogp_matern</a></CODE><DD>
+ Example to use an external covariance function. 
+<DT>
+<CODE><a href="demogp_reg.html">demogp_reg</a></CODE><DD>
+ One-dimensional regression example with different noise models. 
+<DT>
+<CODE><a href="demogp_reg_gui.html">demogp_reg_gui</a></CODE><DD>
+ Graphical frontend to Online Gaussian Process regression. 
+<DT>
+<CODE><a href="demogp_simp.html">demogp_simp</a></CODE><DD>
+ Gaussian process regression using user inputs. 
+<DT>
+<CODE><a href="em_exp.html">em_exp</a></CODE><DD>
+ Recomputes the likelihood parameter for pos.-exp. noise. 
+<DT>
+<CODE><a href="em_gauss.html">em_gauss</a></CODE><DD>
+ Recomputes the (Gaussian) noise variance. 
+<DT>
+<CODE><a href="em_lapl.html">em_lapl</a></CODE><DD>
+ Recomputes the likelihood parameter for exponential noise. 
+<DT>
+<CODE><a href="err_2class.html">err_2class</a></CODE><DD>
+ Computes the binary classification error. 
+<DT>
+<CODE><a href="err_2logp.html">err_2logp</a></CODE><DD>
+ Computes the log-predictive probability of the labels. 
+<DT>
+<CODE><a href="err_abs.html">err_abs</a></CODE><DD>
+ Computes the absolute error. 
+<DT>
+<CODE><a href="err_mse.html">err_mse</a></CODE><DD>
+ Computes the mean-square error. 
+<DT>
+<CODE><a href="g_l_gauss.html">g_l_gauss</a></CODE><DD>
+ Recomputes the variance of the Gaussian noise using gradients 
+<DT>
+<CODE><a href="laplace.html">laplace</a></CODE><DD>
+ Sampling from a Laplace distribution. 
+<DT>
+<CODE><a href="logp_exp.html">logp_exp</a></CODE><DD>
+ Computes the log-predictive probability for positive exponential noise 
+<DT>
+<CODE><a href="logp_g.html">logp_g</a></CODE><DD>
+ Computes the log-predictive probability for Gaussian likelihood 
+<DT>
+<CODE><a href="logp_l.html">logp_l</a></CODE><DD>
+ Computes the log-predictive probability for Gaussian noise 
+<DT>
+<CODE><a href="matern.html">matern</a></CODE><DD>
+ Computes the Matern kernel 
+<DT>
+<CODE><a href="ogp.html">ogp</a></CODE><DD>
+ Initialises the global net structure for the OGP toolbox. 
+<DT>
+<CODE><a href="ogpadjgp.html">ogpadjgp</a></CODE><DD>
+ Computes the GP coefficients from the TAP/EP ones. 
+<DT>
+<CODE><a href="ogpbvmin.html">ogpbvmin</a></CODE><DD>
+ Finds the BV that contributes the least to the GP 
+<DT>
+<CODE><a href="ogpcovarf.html">ogpcovarf</a></CODE><DD>
+ Calculate the covariance function for the OGP. 
+<DT>
+<CODE><a href="ogpcovarp.html">ogpcovarp</a></CODE><DD>
+ Calculate the prior covariance for the Sparse GP. 
+<DT>
+<CODE><a href="ogpcovdiag.html">ogpcovdiag</a></CODE><DD>
+ Calculates the diagonal of the covariance function for the OGP. 
+<DT>
+<CODE><a href="ogpcovgrad.html">ogpcovgrad</a></CODE><DD>
+ Evaluate gradient for kernel parameters (except bias) for the Sparse GP 
+<DT>
+<CODE><a href="ogpdelbv.html">ogpdelbv</a></CODE><DD>
+ Deletes the specified BVs from the BV set of the GP. 
+<DT>
+<CODE><a href="ogpemptybv.html">ogpemptybv</a></CODE><DD>
+ Adds input elements to the BV set without altering the GP. 
+<DT>
+<CODE><a href="ogpevid.html">ogpevid</a></CODE><DD>
+ Evaluates the evidence for Sparse OGP. 
+<DT>
+<CODE><a href="ogpevidgrad.html">ogpevidgrad</a></CODE><DD>
+ Computes the gradient for the Sparse OGP. 
+<DT>
+<CODE><a href="ogpfwd.html">ogpfwd</a></CODE><DD>
+ Forward propagation through a Sparse OGP. 
+<DT>
+<CODE><a href="ogphypcovpar.html">ogphypcovpar</a></CODE><DD>
+ Initialises the Sparse Gaussian Process hyperparameters. 
+<DT>
+<CODE><a href="ogpinit.html">ogpinit</a></CODE><DD>
+ Likelihood initialisation for the Online Gaussian Process structure. 
+<DT>
+<CODE><a href="ogpkl.html">ogpkl</a></CODE><DD>
+ Computes the KL-distance of the GP marginals. 
+<DT>
+<CODE><a href="ogppak.html">ogppak</a></CODE><DD>
+ Puts the Sparse OGP hyperparametrs into a vector. 
+<DT>
+<CODE><a href="ogpparadj.html">ogpparadj</a></CODE><DD>
+ Adjusts GP such that the TAP/EP it. is not ill-conditioned. 
+<DT>
+<CODE><a href="ogppost.html">ogppost</a></CODE><DD>
+ Calculation of the sparse posterior 
+<DT>
+<CODE><a href="ogpreset.html">ogpreset</a></CODE><DD>
+ Resets the Gaussian Process. 
+<DT>
+<CODE><a href="ogpsample.html">ogpsample</a></CODE><DD>
+ Generates samples from a Gaussian process. 
+<DT>
+<CODE><a href="ogpstep_ep.html">ogpstep_ep</a></CODE><DD>
+ Updates the TAP/EP parameters after an online sweep 
+<DT>
+<CODE><a href="ogpstep_full.html">ogpstep_full</a></CODE><DD>
+ Performs a full online update step of the Gaussian Process 
+<DT>
+<CODE><a href="ogpstep_sp.html">ogpstep_sp</a></CODE><DD>
+ Performs a sparse online update step of the Gaussian Process. 
+<DT>
+<CODE><a href="ogptrain.html">ogptrain</a></CODE><DD>
+ Inference for Sparse Gaussian Processes. 
+<DT>
+<CODE><a href="ogpunpak.html">ogpunpak</a></CODE><DD>
+ Puts hyperparameters back into the Sparse OGP. 
+<DT>
+<CODE><a href="sinc.html">sinc</a></CODE><DD>
+ Sin(pi*x)/(pi*x) function. (from MATLAB) 
+<DT>
+<CODE><a href="sinc2data.html">sinc2data</a></CODE><DD>
+ Generates two-dimensional sinc test data. 
+<DT>
+<CODE><a href="sincdata.html">sincdata</a></CODE><DD>
+ Generates one-dimensional sinc test data. 
+</DL>
+
+<hr>
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)</p>
+</body>
+</html>

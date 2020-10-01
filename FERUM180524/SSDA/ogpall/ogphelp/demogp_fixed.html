@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            demogp_fixed</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> demogp_fixed
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Gaussian Process regression using a fixed set of basis vectors.
+
+<p><h2>
+Description
+</h2>
+<p><CODE>demogp_fixed</CODE> - script that implements Online Gaussian Process 
+regression with a fixed set of BV set.
+ 
+The script generates data from the noisy <CODE>sinc</CODE> function where the 
+inputs are 2-dimensional and the radius of the input is the argument
+to <CODE>sinc</CODE>.
+
+<p>In this script the BV set is taken from the test set, thus independent 
+from the training set and no addition or removal to/from the BV set 
+is made during learning - using the sparse online algorithm.
+
+<p>The script performs hyper-parameter optimisation and the performance 
+of the fixed-size OGP is compared with the "normal" algorithm using
+different BV set sizes. 
+
+<p>Similar to one-dimensional regression, the script computes test error and
+displays the averages over different runs. Additionally, it displays the 
+position of the BV elements and the posterior mean. If visual inspection of
+the results is wanted, then one must set the variable <CODE>isBreak</CODE> to a
+nonzero value.
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

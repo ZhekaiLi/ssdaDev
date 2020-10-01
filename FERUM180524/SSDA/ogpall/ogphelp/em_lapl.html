@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            em_lapl</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> em_lapl
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Recomputes the likelihood parameter for exponential noise.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[newLik] = em_lapl(oldLikPar,y,cavM,cavV,postM,postV);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[newLik] = em_lapl(oldLikPar,y,cavM,cavV,postM,postV)</CODE> - the M-step in
+lik.par. estimation of the coefficeient of the Laplace noise. The data is
+assumed to be independent, thus an analytic expression is found (see MATLAB
+code).
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>oldLikPar</CODE><DD><P> - preceeding value of the likelihood parameter.
+
+<p><DT><CODE>y</CODE><DD><P> - training output.
+
+<p><DT><CODE>cavM,cavV</CODE><DD><P> - (cavity) mean and variance of the GP.
+
+<p><DT><CODE>postM,postV</CODE><DD><P> - mean and variance of the posterior process.
+
+<p><DT><CODE>newLik</CODE><DD><P> - the new parameter.
+</DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="demogp_reg.html">demogp_reg</a></CODE>, <CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="c_reg_lapl.html">c_reg_lapl</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

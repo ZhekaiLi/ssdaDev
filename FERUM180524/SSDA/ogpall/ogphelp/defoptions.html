@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            defoptions</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> defoptions
+</H1>
+<h2>
+Purpose
+</h2>
+<p>sets the ``gpopt'' structure to default values.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+gpopt = defoptions</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>gpopt = defoptions</CODE> initialises <CODE>gpopt</CODE>, the structure that
+controls the training procedure <a href="ogptrain.html"><CODE>ogptrain</CODE></a>. Below is a description of
+the <CODE>gpopt</CODE> structure.
+
+<p>The fields in <CODE>gpopt</CODE> are divided into options related to the
+approximation of the posterior process (<CODE>gpopt.postopt</CODE>); options
+related to the optimisation of the covariance function parameters
+(<CODE>gpopt.covopt</CODE>); and parameters returned by the optimisation procedure
+like test or training errors during training or the value of the predictive
+log-likelihood. The structure <CODE>gpopt</CODE> also has options to compute the
+the test/training error, the marginal likelihood for the test/training data,
+etc.
+
+<p>Fields of <CODE>gpopt</CODE>:
+<DL>
+
+<p><DT><CODE>postopt</CODE><DD><P> - substructure with parameters related to the computation
+of the posterior process - keeping the covariance and likelihood
+parameters fixed.
+
+<p><DT><CODE>covopt</CODE><DD><P> - substructure grouping parameters for the optimisation
+of the covariance parameters.
+
+<p><DT><CODE>pavg</CODE><DD><P> - boolean indicator for storing (or NOT) the log-averages.
+If nonzero, <CODE>logavg</CODE> stores the sequence of log-averages for each training input.
+
+<p><DT><CODE>disperr</CODE><DD><P> - boolean indicator whether to display (NOT) the errors during
+training.
+
+<p><DT><CODE>erraddr</CODE><DD><P> - address of function to compute the test error.  It
+should have four inputs: <CODE>net</CODE>, the desired outputs <CODE>y</CODE>, the
+predictive means <CODE>m_x</CODE>, and the predictive variances <CODE>var_x</CODE>.  The
+function <CODE>erraddr</CODE> returns a (user-specified) measure of error. If
+there is no function given, the weighted quadratic error (implemented in
+<CODE>err_mse</CODE>) is used.  See also this function on how to implement new
+error functions.
+
+<p><DT><CODE>ptest</CODE><DD><P> - indicator to store test errors.  Evaluating test error
+can be expensive, <CODE>gpopt.freq</CODE> specifies the delays between
+successive test error computation (0=1, i.e. test error for each online
+step).
+
+<p><DT><CODE>x_test,y_test</CODE><DD><P> - the test inputs and outputs.
+
+<p><DT><CODE>testerror</CODE><DD><P> -  the returned test errors.
+
+<p><DT><CODE>ptrain</CODE><DD><P> - indicator whether to compute or not the training
+errors.  If this value is nonzero then, similarly to computing test
+errors, the training errors are computed <CODE>gpopt.freq</CODE>-th step.
+
+<p><DT><CODE>trainerror</CODE><DD><P> - the returned training errors.
+</DL>
+
+<p>The structure <CODE>gpopt.postopt</CODE> stores options driving the
+computation of the posterior process:
+<DL>
+
+<p><DT><CODE>postopt.itn</CODE><DD><P> - number of online sweeps through the data (default 1).
+
+<p><DT><CODE>postopt.shuffle</CODE><DD><P> - if nonzero (by default), then the inputs are
+shuffled at each iteration, this is an attempt to make the posterior
+independent of the data ordering.
+
+<p><DT><CODE>postopt.isep</CODE><DD><P> - indicator whether to perform the TAP/EP learning
+procedure or not.  This requires additional values to be kept for further
+processing.
+
+<p><DT><CODE>postopt.fixitn</CODE><DD><P> - keeps the basis vectors fixed and performs the
+TAP/EP iteration.  Thus one source of fluctuations is eliminated, and the
+TAP/EP parameters become stable.
+</DL>
+
+<p>If <CODE>gpopt.postopt.isep</CODE> is set to nonzero, then the inference uses the
+TAP/EP iterative approach, which is more time-consuming and also requires
+additional additional information to be stored.  These values are stored in
+the substructure <CODE>gpopt.ep</CODE> using the following fields:
+<DL>
+
+<p><DT><CODE>ep.X</CODE><DD><P> - location of training inputs.
+
+<p><DT><CODE>ep.aP</CODE><DD><P> - mean of the site distribution corresponding to the likelihood.
+
+<p><DT><CODE>ep.lamP</CODE><DD><P> - site variances corresponding to the likelihood.
+
+<p><DT><CODE>ep.projP</CODE><DD><P> - coefficients of the projection.
+</DL>
+
+<p>The substructure <CODE>gpopt.covopt</CODE> contains the fields related to the
+optimisation of the covariance function parameters.  The optimisation relies
+on the <CODE>NETLAB</CODE> optimisation routines, the default is <CODE>'conjgrad'</CODE>,
+this is the string stored in <CODE>fnopt</CODE>. Additional options to the
+respective optimisation routine are provided via the field <CODE>opt</CODE>. If this
+is a scalar, then is specifies the number of iterations, otherwise
+it has to conform to the <CODE>NETLAB</CODE> specifications (see <a href="netopt.html"><CODE>netopt</CODE></a> from
+the NETLAB package).
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="em_gauss.html">em_gauss</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

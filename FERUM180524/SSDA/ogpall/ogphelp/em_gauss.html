@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            em_gauss</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> em_gauss
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Recomputes the (Gaussian) noise variance. 
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+[newLikPar] = em_gauss(oldLikPar,y,cavM,cavV,postM,postV);</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>[newLikPar] = em_gauss(oldLikPar,y,cavM,cavV,postM,postV)</CODE> - implements the
+M-step in the GP inference assuming Gaussian additive noise. The data is
+assumed to be factorising, thus we have a direct result as
+<PRE>
+
+newLikPar  = sum(postV + (y-postM).^2) / N
+</PRE>
+<P>
+where <CODE>N</CODE> is the number of training samples.
+
+<p>Parameters:
+<DL>
+
+<p><DT><CODE>oldLikPar</CODE><DD><P> - preceeding value of the likelihood parameter.
+
+<p><DT><CODE>y</CODE><DD><P> - training output.
+
+<p><DT><CODE>cavM,cavV</CODE><DD><P> - (cavity) mean and variance of the GP.
+
+<p><DT><CODE>postM,postV</CODE><DD><P> - mean and variance of the posterior process.  
+  
+<DT><CODE>newLikPar</CODE><DD><P> - the new noise variance.
+</DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="demogp_reg.html">demogp_reg</a></CODE>, <CODE><a href="c_reg_gauss.html">c_reg_gauss</a></CODE>, <CODE><a href="g_l_gauss.html">g_l_gauss</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>

@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Online GP Reference Manual:
+            ogpinit</title>
+<link rel=StyleSheet href="style.css"
+            type="text/css">
+   <link rel="icon" href="fav.ico">
+
+            </head>
+<body>
+<H1> ogpinit
+</H1>
+<h2>
+Purpose
+</h2>
+<p>Likelihood initialisation for the Online Gaussian Process structure.
+
+<p><h2>
+Synopsis
+</h2>
+<p><PRE>
+ogpinit(net, likfn, likpar,likoptfn)</PRE>
+<P>
+
+<p><h2>
+Description
+</h2>
+<p>
+<p><CODE>ogpinit(likfn, likpar)</CODE> uses the GLOBAL structure <CODE>net</CODE> of an
+online Gaussian Process data structure <CODE>net</CODE> and sets the
+function (<CODE>net.likfn</CODE>) that returns the online update coefficients.  The
+vector <CODE>net.likpar</CODE> sets the additional parameters to this function.
+
+<p>With three arguments: <CODE>ogpinit(likfn,likpar,likoptfn)</CODE>, the
+third argument is the address of the optimiser to the likelihood parameter.
+The optimiser assumes that there exists an approximation to the posterior
+process and the values of the posterior mean and variance at the training
+locations are available.  The optimisation of the likelihood parameters is
+independent of the optimisation of the covariance kernel parameters.
+
+<p>If the third argument in calling <a href="ogpinit.html"><CODE>ogpinit</CODE></a> or the field
+<CODE>net.likoptfn</CODE> is empty then there is no likelihood parameter
+optimisation in the function <a href="ogptrain.html"><CODE>ogptrain</CODE></a>.
+
+<p>Below there is a description of the
+functions and parameters involved in likelihood optimsation.
+
+<p>The address in <CODE>likfn</CODE> is to a function that computes the coefficients
+for the online learning.
+<PRE>
+[loglik, q, r] = likfn(likpar, y, mu, var, mu_p, var_p);</PRE>
+<P>
+with the following parameters:
+<DL>
+<DT><CODE>likpar</CODE><DD><P> - the likelihood parameter (see eg. <a href="c_reg_gauss.html"><CODE>c_reg_gauss</CODE></a>).
+
+<p><DT><CODE>y</CODE><DD><P> - the training (noisy) outputs at the input.
+
+<p><DT><CODE>mu</CODE>, <CODE>var</CODE><DD><P> - the predicted mean and variance (i.e. the
+  statistics of the marginal GP at the input).
+  
+<DT><CODE>mu_p</CODE>, <CODE>var_p</CODE><DD><P> - the values of the prior mean and variance
+  before the addition of the new data - called cavity means and variances.
+  Providing these values is optional and it is returned by <a href="ogppost.html"><CODE>ogppost</CODE></a> within
+  the structure <CODE>gpopt</CODE>.
+
+<p><DT><CODE>loglik</CODE><DD><P> - the value of the log-average.
+
+<p><DT><CODE>q</CODE>, <CODE>r</CODE><DD><P> - the update coeficients to the online learning
+  algorithm - vector and matrix of size <CODE>nout</CODE> (see <a href="c_reg_gauss.html"><CODE>c_reg_gauss</CODE></a>).
+
+<p></DL>
+
+<p>The function <CODE>likoptfn</CODE> has the following structure:
+
+<p><PRE>
+newlikpar = likoptfn(oldlikpar, y, cavM, cavV, postM, postV);</PRE>
+<P>
+where the input and output parameters are the following:
+<DL>
+
+<p><DT><CODE>newlikpar</CODE>, <CODE>oldlikpar</CODE><DD><P> - the new and old values of the
+  likelihood parameters.
+
+<p><DT><CODE>y</CODE><DD><P> - the vector of training inputs
+
+<p><DT><CODE>cavM</CODE>, <CODE>cavV</CODE><DD><P> - vector of prior means and variances
+  corresponding to the training locations !! AND !! with the contribution of
+  the current input removed (cavity parameters).
+
+<p><DT><CODE>postM</CODE>, <CODE>postV</CODE><DD><P> - (optional) vector of posteior means and
+  variances which is sometimes needed, e.g. if one wants to use the EM
+  algorithm.
+
+<p></DL>
+
+<p><h2>
+See Also
+</h2>
+<p><CODE><a href="ogp.html">ogp</a></CODE>, <CODE><a href="ogptrain.html">ogptrain</a></CODE>, <CODE><a href="c_reg_gauss.html">c_reg_gauss</a></CODE>, <CODE><a href="c_reg_exp.html">c_reg_exp</a></CODE>, <CODE><a href="em_gauss.html">em_gauss</a></CODE>, <CODE><a href="em_lapl.html">em_lapl</a></CODE><hr>
+<b>Pages:</b>
+<a href="index.html">Index</a>
+
+<p class="auth">Copyright (c) Lehel Csat&oacute; (2001-2004)
+</body>
+</html>
