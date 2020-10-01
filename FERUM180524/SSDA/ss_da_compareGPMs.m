@@ -1,4 +1,4 @@
-function [ ssda_results, probdata ] = ss_da(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function [ ssda_results, probdata ] = ss_da_compareGPMs(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 %     Finite Element Reliability Using Matlab, FERUM, Version 4.0, 2009 
 % 
@@ -215,6 +215,7 @@ if ssda_restart_from_step < 0
 %    ytest = ogpfwd(ssda_Data.U');
    ogpreset;  % remove the BV
    ogppost(ssda_Data.U',ssda_Data.G');
+   % store the inital GP model
    NETS{1, 1} = net;
 end
 

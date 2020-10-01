@@ -1,4 +1,4 @@
-function ssda_Data = ssda_step(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function ssda_Data = ssda_step_compareGPMs(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 % Perform a single subset step
 
