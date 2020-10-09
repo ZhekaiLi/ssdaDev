@@ -23,7 +23,6 @@ global net gpopt ep;  % net: GP model; gpopt: optimizing parameter;
                       % ep: expectation maximization options
 
 global NETS;
-NETS = {};
 
 if isfield(analysisopt,'ssda_restart_from_step')
    ssda_restart_from_step = analysisopt.ssda_restart_from_step;
@@ -353,6 +352,7 @@ ssda_results.nfun       = nfun;
 ssda_results.ssda_Data  = ssda_Data;
 ssda_results.net        = net;
 ssda_results.gpopt      = gpopt;
+ssda_results.NETS       = NETS;
 
 if analysisopt.flag_cov_pf_bounds == 1
    ssda_results.cov_pf  = ssda_Data.cov_pf_bounds;

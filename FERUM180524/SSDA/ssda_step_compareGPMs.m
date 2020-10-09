@@ -2,7 +2,7 @@ function ssda_Data = ssda_step_compareGPMs(ssda_Data,num_sim,lsf,probdata,analys
 
 % Perform a single subset step
 
-global nfun
+global nfun;
 global net gpopt ep;
 global NETS;
 
@@ -73,25 +73,19 @@ while size(subsetU,2) < num_sim
       % Transform into original space
       allx = u_to_x(allu,probdata);
       
-      % prediction by GP surrogate
-      % ZK: 01/10
+      % prediction by GP surrogate (ZK)
       % store the GP model in every step
       % compare the value calculate by different GP model that have been calculate
       % then choose the result with smallest variance
-      meanG = [];
-      varG = [];
-      for i = 1:size(NETS, 2)
+      [meanG, varG] = ogpfwd(allx');
+      for i = 2 : size(NETS, 2)
          net = NETS{1, i};
          [meanGtemp, varGtemp] = ogpfwd(allx');
          varGtemp(varG<0) = 0;
-         if i == 1
-            meanG = meanGtemp;
-            varG = varGtemp;
-         else
-            better = find(varGtemp < varG);
-            meanG(better) = meanGtemp(better);
-            varG(better) = varGtemp(better);
-         end
+         
+        better = find(varGtemp < varG);
+        meanG(better) = meanGtemp(better);
+        varG(better) = varGtemp(better);
       end
       subtempg(subind) = meanG;  % store G
       % predicted failure probability
@@ -129,6 +123,8 @@ while size(subsetU,2) < num_sim
          percent_done = floor( k/Nseeds * 20 );
         if echo_flag
             fprintf(1,'Subset step #%d - Generation #%d - %d%% complete\n',ssda_Data.Nb_step,Nb_generation,percent_done*5);
+            % strore the new GP model into NETS
+            NETS{1, 9 * (ssda_Data.Nb_step - 1) + 1 + Nb_generation} = net;
         end
       end
       
@@ -176,5 +172,4 @@ if ~isempty(net.Utrain) && gpopt.covopt.hyopt == 0
 %     ogpreset;
     ogptrain(net.Utrain',net.Gtrain');
     ogppost(net.Utrain',net.Gtrain');
-    NETS{1, size(NETS, 2)+1} = net;
 end

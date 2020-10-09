@@ -456,7 +456,7 @@ switch analysisopt.analysistype
          
       end % End if echo_flag
       
-      case 24 % ---- SUBSET SIMULATIONS W/ DELAYED ACCEPTANCE---------------------------------------------------------------
+   case 24 % ---- SUBSET SIMULATIONS W/ DELAYED ACCEPTANCE---------------------------------------------------------------
 
       if echo_flag
          % Clear screen and display message
@@ -466,7 +466,7 @@ switch analysisopt.analysistype
       end
 
       % Run simulation analysis
-      [ssda_result, probdata ] = ss_da_compareGPMs(1,probdata,analysisopt,gfundata,femodel,randomfield);
+      [ssda_result, probdata ] = ss_da(1,probdata,analysisopt,gfundata,femodel,randomfield);
    
       if echo_flag
          

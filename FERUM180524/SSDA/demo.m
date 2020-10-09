@@ -1,6 +1,9 @@
+clear; close all; clc
 %% demo
 EX2;    % call model
 global net gpopt ep;
+global NETS;
+NETS = {};
 
 
 %% Initial function

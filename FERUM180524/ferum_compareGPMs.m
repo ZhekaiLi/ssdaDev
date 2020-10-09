@@ -456,7 +456,7 @@ switch analysisopt.analysistype
          
       end % End if echo_flag
       
-      case 24 % ---- SUBSET SIMULATIONS W/ DELAYED ACCEPTANCE---------------------------------------------------------------
+   case 24 % ---- SUBSET SIMULATIONS W/ DELAYED ACCEPTANCE---------------------------------------------------------------
 
       if echo_flag
          % Clear screen and display message
