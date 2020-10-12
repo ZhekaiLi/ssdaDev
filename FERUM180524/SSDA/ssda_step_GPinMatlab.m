@@ -1,10 +1,11 @@
-function ssda_Data = ssda_step_compareGPMs(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 % Perform a single subset step
 
-global nfun;
+global nfun
 global net gpopt ep;
-global NETs;
+global data;
+global gpm;
 
 nrv = analysisopt.GPmodel.dim;  % # RVs
 
@@ -34,10 +35,10 @@ DArate = [];       % acceptance rate for the dalayed acceptance
 % generate uniform random variable for comparison
 rand_generator = analysisopt.rand_generator;
 switch rand_generator
-case 0
-u01 = rand(Nseeds,num_sim/Nseeds-1);
-otherwise
-u01 = twister(Nseeds,num_sim/Nseeds-1);
+   case 0
+      u01 = rand(Nseeds,num_sim/Nseeds-1);
+   otherwise
+      u01 = twister(Nseeds,num_sim/Nseeds-1);
 end
 
 Pr_old = ones(Nseeds,1);             % predicted failure probability in seeds
@@ -73,24 +74,13 @@ while size(subsetU,2) < num_sim
       % Transform into original space
       allx = u_to_x(allu,probdata);
       
-      % prediction by GP surrogate (ZK)
-      % store the GP model in every step
-      % compare the value calculate by different GP model that have been calculate
-      % then choose the result with smallest variance
-      [meanG, varG] = ogpfwd(allx');
-      varG(varG<0) = 0;
-      for i = 2 : size(NETs, 2)
-         net = NETs{1, i};
-         [meanGtemp, varGtemp] = ogpfwd(allx');
-         varGtemp(varGtemp<0) = 0;
-         
-        better = find(varGtemp < varG);
-        meanG(better) = meanGtemp(better);
-        varG(better) = varGtemp(better);
-      end
+      % prediction by GP surrogate
+      % [meanG, varG] = ogpfwd(allx');
+      [meanG, stdG] = predict(gpm, allx');
+      stdG(stdG<0) = 0;
       subtempg(subind) = meanG;  % store G
       % predicted failure probability
-      Pr_fail(subind) = normcdf((ssda_Data.y(end)-meanG)./sqrt(varG));
+      Pr_fail(subind) = normcdf((ssda_Data.y(end)-meanG)./stdG);
       
       % acceptance ratio of GP
       a2 = Pr_fail(subind)./Pr_old(subind);
@@ -112,7 +102,13 @@ while size(subsetU,2) < num_sim
           % indices of rejected samples
           I3_reject = I_evalu(newG > ssda_Data.y(end));
           Pr_fail(setdiff(I_evalu,I3_reject)) = 1;  % update failure probability
-          ogppost(allu(:,I_evalx)',newG');  % update GP
+
+          % ogppost(allu(:,I_evalx)',newG');  % update GP
+          data.x = [data.x allu(:,I_evalx)];
+          data.y = [data.y newG];
+          
+          gpm = fitrgp(data.x', data.y');
+          
           % collect newly generated samples for GP training
           net.Utrain = [net.Utrain allu(:,I_evalx)];
           net.Gtrain = [net.Gtrain newG];
@@ -124,8 +120,6 @@ while size(subsetU,2) < num_sim
          percent_done = floor( k/Nseeds * 20 );
         if echo_flag
             fprintf(1,'Subset step #%d - Generation #%d - %d%% complete\n',ssda_Data.Nb_step,Nb_generation,percent_done*5);
-            % strore the new GP model into NETs
-            NETs{1, 9 * (ssda_Data.Nb_step - 1) + 1 + Nb_generation} = net;
         end
       end
       

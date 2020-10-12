@@ -33,10 +33,10 @@ DArate = [];       % acceptance rate for the dalayed acceptance
 % generate uniform random variable for comparison
 rand_generator = analysisopt.rand_generator;
 switch rand_generator
-case 0
-u01 = rand(Nseeds,num_sim/Nseeds-1);
-otherwise
-u01 = twister(Nseeds,num_sim/Nseeds-1);
+    case 0
+        u01 = rand(Nseeds,num_sim/Nseeds-1);
+    otherwise
+        u01 = twister(Nseeds,num_sim/Nseeds-1);
 end
 
 Pr_old = ones(Nseeds,1);             % predicted failure probability in seeds

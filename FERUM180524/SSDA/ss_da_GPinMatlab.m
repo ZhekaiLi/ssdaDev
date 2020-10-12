@@ -1,28 +1,11 @@
-function [ ssda_results, probdata ] = ss_da_compareGPMs(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function [ ssda_results, probdata ] = ss_da_GPinMatlab(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
-%     Finite Element Reliability Using Matlab, FERUM, Version 4.0, 2009 
-% 
-%     This program is free software: you can redistribute it and/or modify
-%     it under the terms of the GNU General Public License as published by
-%     the Free Software Foundation, either version 3 of the License, or
-%     (at your option) any later version.
-% 
-%     This program is distributed in the hope that it will be useful,
-%     but WITHOUT ANY WARRANTY; without even the implied warranty of
-%     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%     GNU General Public License for more details.
-% 
-%     A copy of the GNU General Public License is found in the file
-%     <gpl-3.0.txt> following this collection of FERUM program files.
-%     This license can be also found at: <http://www.gnu.org/licenses/>.    
-%
-%     For more information on FERUM, visit: <http://www.ifma.fr/FERUM/>
 
 global nfun           % # LSF evaluations
 global net gpopt ep;  % net: GP model; gpopt: optimizing parameter; 
                       % ep: expectation maximization options
-
-global NETs;
+global data;
+global gpm;
 
 if isfield(analysisopt,'ssda_restart_from_step')
    ssda_restart_from_step = analysisopt.ssda_restart_from_step;
@@ -31,11 +14,6 @@ else
 end
 
 %% Load data from previous subset step, if necessary ( ss_restart_from_step >= 0 )
-if ssda_restart_from_step >= 0
-   eval(['load ssda_restart_from_step_' num2str(ssda_restart_from_step) '.mat']);
-   twister('state',ssda_Data.Seed(:,ssda_restart_from_step+2)');
-end
-
 
 if ssda_restart_from_step < 0
 
@@ -114,15 +92,12 @@ if ssda_restart_from_step < 0
          probdata.iLo = iLo;
 
       end
-
+     
    end
-
    % Establish Cholesky decomposition of covariance matrix in crude MC
-   chol_covariance = stdv1 * eye(nrv);  % chol_covariance = chol(covariance);
-
+   chol_covariance = stdv1 * eye(nrv);  % chol_covariance = chol(covariance)
 end
 
-gpini(analysisopt,probdata,gfundata,femodel,randomfield);   % initialize the GP model
 %% Subset Simulation - Step 0 (Monte Carlo Simulation)
 
 ssda_Data.Nb_step = 0; %nb_step = 0;
@@ -170,7 +145,7 @@ if ssda_restart_from_step < 0
       % Evaluate limit-state function
       allg = gfun(lsf,allx,'no ',probdata,analysisopt,gfundata,femodel,randomfield);
       ssda_Data.G((k-block_size+1):k) = allg;
-      
+                 
       if floor( k/num_sim * 20 ) > percent_done
          percent_done = floor( k/num_sim * 20 );
          if echo_flag
@@ -210,12 +185,14 @@ if ssda_restart_from_step < 0
    end
    
    % Train GP
-%    traingp(ssda_Data.U',ssda_Data.G');
-%    ytest = ogpfwd(ssda_Data.U');
-   ogpreset;  % remove the BV
-   ogppost(ssda_Data.U',ssda_Data.G');
-   % store the inital GP model
-   NETs{1, 1} = net;
+   % ogpreset;  % remove the BV
+   % ogppost(ssda_Data.U',ssda_Data.G');
+
+   % Train GP in matlab
+   data.x = ssda_Data.U;
+   data.y = ssda_Data.G;
+   
+   gpm = fitrgp(data.x', data.y');
 end
 
 % plot
@@ -238,8 +215,8 @@ if ssda_Data.y ~= 0
    end
 
    if ssda_restart_from_step < 0
-      % Subset Simulation - FStep 1 - Run simulations
-      ssda_Data = ssda_step_compareGPMs(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
+      % Subset Simulation - Step 1 - Run simulations
+      ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
    end
 
    if nrv == 2 && exist('flag_plot','var') == 1 && flag_plot == 1
@@ -247,7 +224,6 @@ if ssda_Data.y ~= 0
    end
 
 end
-
 %% Loop until y-threshold equal to zero
 while ssda_Data.y(end) ~= 0
    if ssda_restart_from_step < 0
@@ -274,6 +250,8 @@ while ssda_Data.y(end) ~= 0
    end
    
    if ssda_Data.y(end) == 0, break; end
+   
+   if ssda_Data.y(end) == ssda_Data.y(end-1) && ssda_Data.y(end-1) == ssda_Data.y(end-2), break; end   
 
    % Subset Simulation - Step > 1
    ssda_Data.Nb_step = ssda_Data.Nb_step + 1; % nb_step = ssda_Data.Nb_step;
@@ -287,7 +265,7 @@ while ssda_Data.y(end) ~= 0
 
    if ssda_restart_from_step < 0
       % Subset Simulation - Step > 1 - Run simulations
-      ssda_Data = ssda_step_compareGPMs(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
+      ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
    end
    
    if nrv == 2 && exist('flag_plot','var') == 1 && flag_plot == 1 && ssda_Data.y(end) ~= 0
@@ -352,7 +330,6 @@ ssda_results.nfun       = nfun;
 ssda_results.ssda_Data  = ssda_Data;
 ssda_results.net        = net;
 ssda_results.gpopt      = gpopt;
-ssda_results.NETs       = NETs;
 
 if analysisopt.flag_cov_pf_bounds == 1
    ssda_results.cov_pf  = ssda_Data.cov_pf_bounds;
