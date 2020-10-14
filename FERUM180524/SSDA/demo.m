@@ -28,7 +28,7 @@ ferum_ZK
 %% case 27: ssda modified
 % Process
 %   The case 24 (inital case) use U, G to train but X to predict,
-%   this case 27 use X, G to train and X to predict
+%   this case 27 use U, G to train and U to predict
 % Change
 %   1. Add a new file called ss_da_modified.m
 %   2. Add a new file called ssda_step_modified.m

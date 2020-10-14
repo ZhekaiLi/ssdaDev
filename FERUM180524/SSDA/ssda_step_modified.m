@@ -74,7 +74,7 @@ while size(subsetU,2) < num_sim
       allx = u_to_x(allu,probdata);
       
       % prediction by GP surrogate
-      [meanG, varG] = ogpfwd(allx');
+      [meanG, varG] = ogpfwd(allu');
       varG(varG<0) = 0;
       subtempg(subind) = meanG;  % store G
       % predicted failure probability
@@ -100,7 +100,7 @@ while size(subsetU,2) < num_sim
           % indices of rejected samples
           I3_reject = I_evalu(newG > ssda_Data.y(end));
           Pr_fail(setdiff(I_evalu,I3_reject)) = 1;  % update failure probability
-          ogppost(allx(:,I_evalx)',newG');  % update GP
+          ogppost(allu(:,I_evalx)',newG');  % update GP
           % collect newly generated samples for GP training
           net.Utrain = [net.Utrain allu(:,I_evalx)];
           net.Xtrain = [net.Xtrain allx(:,I_evalx)];

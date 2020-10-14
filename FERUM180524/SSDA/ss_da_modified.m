@@ -197,7 +197,7 @@ function [ ssda_results, probdata ] = ss_da_modified(lsf,probdata,analysisopt,gf
    %    traingp(ssda_Data.U',ssda_Data.G');
    %    ytest = ogpfwd(ssda_Data.U');
       ogpreset;  % remove the BV
-      ogppost(ssda_Data.X',ssda_Data.G');
+      ogppost(ssda_Data.U',ssda_Data.G');
 
    end
 
