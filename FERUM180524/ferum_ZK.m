@@ -173,6 +173,9 @@ switch analysisopt.analysistype
          end
          disp('Reliability index beta: '), disp(ssda_result.beta)
          disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Accumulated GP accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)));
+         disp('Accumulated SS accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(3,:)));
+         disp('GP rate / SS rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)) / sum(ssda_result.ssda_Data.AccRate(3,:)));
          disp(['...............................................................................................'])
          disp('The following parameters are now available in your current workspace:')
          disp('   ssda_result.pf         = Failure probability from subset simulations')
@@ -215,6 +218,11 @@ switch analysisopt.analysistype
          end
          disp('Reliability index beta: '), disp(ssda_result.beta)
          disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Reliability index beta: '), disp(ssda_result.beta)
+         disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Accumulated GP accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)));
+         disp('Accumulated SS accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(3,:)));
+         disp('GP rate / SS rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)) / sum(ssda_result.ssda_Data.AccRate(3,:)));
          disp(['...............................................................................................'])
          disp('The following parameters are now available in your current workspace:')
          disp('   ssda_result.pf         = Failure probability from subset simulations')
@@ -257,6 +265,11 @@ switch analysisopt.analysistype
          end
          disp('Reliability index beta: '), disp(ssda_result.beta)
          disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Reliability index beta: '), disp(ssda_result.beta)
+         disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Accumulated GP accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)));
+         disp('Accumulated SS accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(3,:)));
+         disp('GP rate / SS rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)) / sum(ssda_result.ssda_Data.AccRate(3,:)));
          disp(['...............................................................................................'])
          disp('The following parameters are now available in your current workspace:')
          disp('   ssda_result.pf         = Failure probability from subset simulations')
@@ -299,6 +312,11 @@ switch analysisopt.analysistype
          end
          disp('Reliability index beta: '), disp(ssda_result.beta)
          disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Reliability index beta: '), disp(ssda_result.beta)
+         disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Accumulated GP accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)));
+         disp('Accumulated SS accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(3,:)));
+         disp('GP rate / SS rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)) / sum(ssda_result.ssda_Data.AccRate(3,:)));
          disp(['...............................................................................................'])
          disp('The following parameters are now available in your current workspace:')
          disp('   ssda_result.pf         = Failure probability from subset simulations')

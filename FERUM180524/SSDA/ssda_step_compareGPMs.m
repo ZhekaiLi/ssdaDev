@@ -77,11 +77,11 @@ while size(subsetU,2) < num_sim
       % store the GP model in every step
       % compare the value calculate by different GP model that have been calculate
       % then choose the result with smallest variance
-      [meanG, varG] = ogpfwd(allx');
+      [meanG, varG] = ogpfwd(allu');
       varG(varG<0) = 0;
       for i = 2 : size(NETs, 2)
          net = NETs{1, i};
-         [meanGtemp, varGtemp] = ogpfwd(allx');
+         [meanGtemp, varGtemp] = ogpfwd(allu');
          varGtemp(varGtemp<0) = 0;
          
         better = find(varGtemp < varG);
