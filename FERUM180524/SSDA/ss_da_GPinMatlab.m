@@ -114,6 +114,7 @@ if ssda_restart_from_step < 0
    percent_done = 0;
 
    ssda_Data.U = zeros(nrv,num_sim);
+
    ssda_Data.G = zeros(1,num_sim);
    
 end
@@ -141,6 +142,7 @@ if ssda_restart_from_step < 0
 
       % Transform into original space
       allx = u_to_x(allu,probdata);
+      ssda_Data.X(:,(k-block_size+1):k) = allx;
 
       % Evaluate limit-state function
       allg = gfun(lsf,allx,'no ',probdata,analysisopt,gfundata,femodel,randomfield);
