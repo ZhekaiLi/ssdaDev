@@ -18,17 +18,23 @@ ferum_ZK
 %   2. Add a new file called ssda_step_compareGPMs.m
 
 
-%% case 26: ssda + use Matlab RGP to replace the initial ogp method
+%% case 260: ssda + use Matlab RGP to replace the initial ogp method
 % Process
 %   Use Matlab's GP to replace the inital ogp (online gaussian process) 
 % Change
 %   1. Add a new file called ss_da_GPinMatlab.m
 %   2. Add a new file called ssda_step_GPinMatlab.m
 
+%% case 261: case 260 for test (reduce the number of train samples to save time, sacrificing accuracy)
+% ÒÔ  case 260 Îª»ù´¡£¬
+
 %% case 27: ssda modified
 % Process
-%   Use Matlab's GP to replace the inital ogp (online gaussian process) 
+%   The case 24 (inital case) use U, G to train but X to predict,
+%   this case 27 use U, G to train and U to predict
 % Change
 %   1. Add a new file called ss_da_modified.m
-%   2. Add a new file called ssda_step_GPinMatlab.m
+%   2. Add a new file called ssda_step_modified.m
+
+
 

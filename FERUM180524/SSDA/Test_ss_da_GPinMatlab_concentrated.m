@@ -1,4 +1,4 @@
-function [ ssda_results, probdata ] = ss_da_GPinMatlab(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function [ ssda_results, probdata ] = Test_ss_da_GPinMatlab_concentrated(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 
 global nfun           % # LSF evaluations
@@ -31,7 +31,7 @@ if ssda_restart_from_step < 0
    rand_generator = analysisopt.rand_generator;
    stdv1 = analysisopt.stdv_sim;   % std for the crude MC 
 
-   analysisopt.num_sim = analysisopt.num_sim;
+   analysisopt.num_sim = 300; % intial 1000
    num_sim = analysisopt.num_sim;  % # samples used in each level
    
    ssda_Data.pf_target = analysisopt.pf_target; % 0.1
@@ -129,7 +129,7 @@ if ssda_Data.y ~= 0
    ssda_Data.Nb_step = ssda_Data.Nb_step + 1; % nb_step = SubsetData.Nb_step;
    
    % Subset Simulation - Step 1 - Run simulations
-   ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
+   ssda_Data = Test_ssda_step_GPinMatlab_concentrated(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
 end
 
 %% Loop until y-threshold equal to zero
@@ -151,7 +151,7 @@ while ssda_Data.y(end) ~= 0
    % Subset Simulation - Step > 1
    ssda_Data.Nb_step = ssda_Data.Nb_step + 1; % nb_step = ssda_Data.Nb_step;
 
-   ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
+   ssda_Data = Test_ssda_step_GPinMatlab_concentrated(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
 end
 
 % Assess approximation bounds for the coeficient of variation of the failure probability pf

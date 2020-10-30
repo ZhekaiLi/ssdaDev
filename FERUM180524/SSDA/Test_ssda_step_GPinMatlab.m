@@ -1,4 +1,4 @@
-function ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function ssda_Data = Test_ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 % Perform a single subset step
 
@@ -25,8 +25,6 @@ Nseeds = size(subgermG,2);
 
 subsetU     = subgermU;     % store generated U
 subsetG     = subgermG;     % store generated G
-net.Utrain  = [];     % store newly generated U
-net.Gtrain  = [];     % store newly generated G
 
 Nb_generation = 0; % iteration order for sequential sampling
 GPrate = [];       % acceptance rate for GP surrogate
@@ -107,14 +105,12 @@ while size(subsetU,2) < num_sim
           data.x = [data.x allu(:,I_evalx)];
           data.y = [data.y newG];
           
-          % use the last 1000 sapmles to renew the gp model
-          xTrain = data.x(:, end-999:end);
-          yTrain = data.y(:, end-999:end);
+          fprintf('size, %d----', size(newG, 2));
+          % use the last 300 sapmles to renew the gp model
+          xTrain = data.x(:, end-299:end);
+          yTrain = data.y(:, end-299:end);
           gpm = fitrgp(xTrain', yTrain');
           
-          % collect newly generated samples for GP training
-          net.Utrain = [net.Utrain allu(:,I_evalx)];
-          net.Gtrain = [net.Gtrain newG];
       end
       % cumulative rejected samples
       I_reject = sort([I_reject [I2_reject I3_reject]]);

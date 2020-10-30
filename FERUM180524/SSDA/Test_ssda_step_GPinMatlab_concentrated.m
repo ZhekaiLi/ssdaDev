@@ -1,4 +1,4 @@
-function ssda_Data = ssda_step_GPinMatlab(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function ssda_Data = Test_ssda_step_GPinMatlab_concentrated(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 % Perform a single subset step
 
@@ -103,14 +103,14 @@ while size(subsetU,2) < num_sim
           I3_reject = I_evalu(newG > ssda_Data.y(end));
           Pr_fail(setdiff(I_evalu,I3_reject)) = 1;  % update failure probability
 
-          % ogppost(allu(:,I_evalx)',newG');  % update GP
-          data.x = [data.x allu(:,I_evalx)];
-          data.y = [data.y newG];
+          % data.x = [data.x allu(:,I_evalx)];
+          % data.y = [data.y newG];
+
+          [data.x, data.y] = choose_near_samples(data.x, data.y, allu(:,I_evalx), newG);
           
-          % use the last 1000 sapmles to renew the gp model
-          xTrain = data.x(:, end-999:end);
-          yTrain = data.y(:, end-999:end);
-          gpm = fitrgp(xTrain', yTrain');
+          fprintf('size, %d', size(newG, 2));
+          % use the last 300 sapmles to renew the gp model
+          gpm = fitrgp(data.x', data.y');
           
           % collect newly generated samples for GP training
           net.Utrain = [net.Utrain allu(:,I_evalx)];
