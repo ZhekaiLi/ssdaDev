@@ -42,6 +42,7 @@ if echo_flag
    disp('  27: ssda modified');
    disp('  261: case 260 for test (reduce the number of train samples to save time, sacrificing accuracy)');
    disp('  262: case 261 modified (modify training samples by finding the nearest base samples with new samples)');
+   disp('  263: case 262 modified ');
    disp(' ');
    analysistype = input('  CHOOSE OPTION FROM THE LIST ABOVE: ');
    analysisopt.analysistype = analysistype;
@@ -390,6 +391,53 @@ switch analysisopt.analysistype
 
       % Run simulation analysis
       [ssda_result, probdata ] = Test_ss_da_GPinMatlab_concentrated(1,probdata,analysisopt,gfundata,femodel,randomfield);
+   
+      if echo_flag
+         
+         % Display results
+         disp([' '])
+         disp(['..............................................................................................'])
+         disp([' '])
+         disp(['RESULTS FROM RUNNING SUBSET SIMULATION W/ DELAYED ACCEPTANCE' ])
+         disp([' '])
+         disp('Probability of failure: '), disp(ssda_result.pf)
+         if isfield(ssda_result,'cov_pf')
+            disp('Coefficient of variation of failure probability (lower bound):'), disp(ssda_result.cov_pf)
+         end
+         disp('Reliability index beta: '), disp(ssda_result.beta)
+         disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Reliability index beta: '), disp(ssda_result.beta)
+         disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Accumulated GP accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)));
+         disp('Accumulated SS accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(3,:)));
+         disp('GP rate / SS rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)) / sum(ssda_result.ssda_Data.AccRate(3,:)));
+         disp(['...............................................................................................'])
+         disp('The following parameters are now available in your current workspace:')
+         disp('   ssda_result.pf         = Failure probability from subset simulations')
+         if isfield(ssda_result,'cov_pf')
+            disp('   ssda_result.cov_pf     = Coefficient of variation for the failure probability (lower bound, upper bound)')
+         end
+         disp('   ssda_result.beta       = Generalized reliability index beta from this simulation')
+         disp('   ssda_result.SubsetData = Subset data structure')
+         disp('   ssda_result.nfun       = Number of calls to the limit-state function')
+         disp(['..............................................................................................'])
+         disp([' '])
+         
+      end % End if echo_flag
+   case 263 % ---- 262: case 262 modified (modify training samples by finding the nearest base samples with new samples)---
+      global data;
+      global gpm;
+      global GPMs;
+
+      if echo_flag
+         % Clear screen and display message
+         disp(' ');
+         disp('SUBSET SIMULATION W/ DELYED ACCEPTANCE is running, please wait... (Ctrl+C breaks)')
+         disp(' ');
+      end
+
+      % Run simulation analysis
+      [ssda_result, probdata ] = Test_ss_da_GPinMatlab_concentratedCompare(1,probdata,analysisopt,gfundata,femodel,randomfield);
    
       if echo_flag
          

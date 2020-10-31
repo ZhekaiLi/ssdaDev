@@ -1,10 +1,12 @@
-function ssda_Data = ssda_step_compareGPMs(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+function ssda_Data = Test_ssda_step_GPinMatlab_concentratedCompare(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 % Perform a single subset step
 
-global nfun;
+global nfun
 global net gpopt ep;
-global NETs;
+global data;
+global gpm;
+global GPMs;
 
 nrv = analysisopt.GPmodel.dim;  % # RVs
 
@@ -34,10 +36,10 @@ DArate = [];       % acceptance rate for the dalayed acceptance
 % generate uniform random variable for comparison
 rand_generator = analysisopt.rand_generator;
 switch rand_generator
-case 0
-u01 = rand(Nseeds,num_sim/Nseeds-1);
-otherwise
-u01 = twister(Nseeds,num_sim/Nseeds-1);
+   case 0
+      u01 = rand(Nseeds,num_sim/Nseeds-1);
+   otherwise
+      u01 = twister(Nseeds,num_sim/Nseeds-1);
 end
 
 Pr_old = ones(Nseeds,1);             % predicted failure probability in seeds
@@ -73,24 +75,23 @@ while size(subsetU,2) < num_sim
       % Transform into original space
       allx = u_to_x(allu,probdata);
       
-      % prediction by GP surrogate (ZK)
-      % store the GP model in every step
-      % compare the value calculate by different GP model that have been calculate
-      % then choose the result with smallest variance
-      [meanG, varG] = ogpfwd(allu');
-      varG(varG<0) = 0;
-      for i = 1 : size(NETs, 2)
-         net = NETs{1, i};
-         [meanGtemp, varGtemp] = ogpfwd(allu');
-         varGtemp(varGtemp<0) = 0;
+      % prediction by GP surrogate
+      % [meanG, varG] = ogpfwd(allx');
+      [meanG, stdG] = predict(gpm, allu');
+      stdG(stdG<0) = 0;
+      for i = 1 : size(GPMs, 2)
+         gpm = GPMs{1, i};
+         [meanGtemp, stdGtemp] = predict(gpm, allu');
+         stdGtemp(stdGtemp<0) = 0;
          
-         better = find(varGtemp < varG);
+         better = find(stdGtemp < stdG);
          meanG(better) = meanGtemp(better);
-         varG(better) = varGtemp(better);
+         stdG(better) = stdGtemp(better);
       end
+
       subtempg(subind) = meanG;  % store G
       % predicted failure probability
-      Pr_fail(subind) = normcdf((ssda_Data.y(end)-meanG)./sqrt(varG));
+      Pr_fail(subind) = normcdf((ssda_Data.y(end)-meanG)./stdG);
       
       % acceptance ratio of GP
       a2 = Pr_fail(subind)./Pr_old(subind);
@@ -112,7 +113,16 @@ while size(subsetU,2) < num_sim
           % indices of rejected samples
           I3_reject = I_evalu(newG > ssda_Data.y(end));
           Pr_fail(setdiff(I_evalu,I3_reject)) = 1;  % update failure probability
-          ogppost(allu(:,I_evalx)',newG');  % update GP
+
+          % data.x = [data.x allu(:,I_evalx)];
+          % data.y = [data.y newG];
+
+          [data.x, data.y] = choose_near_samples(data.x, data.y, allu(:,I_evalx), newG);
+          
+          fprintf('size, %d', size(newG, 2));
+          % use the last 300 sapmles to renew the gp model
+          gpm = fitrgp(data.x', data.y');
+          
           % collect newly generated samples for GP training
           net.Utrain = [net.Utrain allu(:,I_evalx)];
           net.Gtrain = [net.Gtrain newG];
@@ -122,11 +132,11 @@ while size(subsetU,2) < num_sim
       
       if floor( k/Nseeds * 20 ) > percent_done
          percent_done = floor( k/Nseeds * 20 );
-        if echo_flag
+         if echo_flag
             fprintf(1,'Subset step #%d - Generation #%d - %d%% complete\n',ssda_Data.Nb_step,Nb_generation,percent_done*5);
-            % strore the new GP model into NETs
-            NETs{1, 9 * (ssda_Data.Nb_step - 1) + 1 + Nb_generation} = net;
-        end
+            % strore the new GP model into GPMss
+            GPMss{1, 9 * (ssda_Data.Nb_step - 1) + 1 + Nb_generation} = gpm;
+         end
       end
       
    end
@@ -168,9 +178,4 @@ ssda_Data.G       = [ ssda_Data.G subsetG ];
 ssda_Data.Indices = [ ssda_Data.Indices; ssda_Data.Indices(end,2)+1 ssda_Data.Indices(end,2)+size(subsetU,2) ];
 ssda_Data.AccRate = [ ssda_Data.AccRate [ Nb_generation ; mean(GPrate); mean(DArate) ] ];
 
-% train GP
-if ~isempty(net.Utrain) && gpopt.covopt.hyopt == 0
-%     ogpreset;
-    ogptrain(net.Utrain',net.Gtrain');
-    ogppost(net.Utrain',net.Gtrain');
 end

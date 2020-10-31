@@ -24,6 +24,9 @@ global net gpopt ep;  % net: GP model; gpopt: optimizing parameter;
 
 global NETs;
 
+
+NETs = {};
+
 if isfield(analysisopt,'ssda_restart_from_step')
    ssda_restart_from_step = analysisopt.ssda_restart_from_step;
 else
