@@ -1,5 +1,5 @@
-% case 262
-function [ ssda_results, probdata ] = Test_ss_da_GPinMatlab_concentrated(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
+% case 263
+function [ ssda_results, probdata ] = Test_ss_da_GPinMatlab_concentratedCompare(lsf,probdata,analysisopt,gfundata,femodel,randomfield)
 
 
 global nfun           % # LSF evaluations
@@ -7,6 +7,9 @@ global net gpopt ep;  % net: GP model; gpopt: optimizing parameter;
                       % ep: expectation maximization options
 global data;
 global gpm;
+global GPMs;
+
+GPMs = {};
 
 ssda_restart_from_step = analysisopt.ssda_restart_from_step; % -inf
 
@@ -33,7 +36,7 @@ if ssda_restart_from_step < 0
    stdv1 = analysisopt.stdv_sim;   % std for the crude MC 
 
    analysisopt.num_sim = 300; % intial 1000
-   num_sim = analysisopt.num_sim;  % samples used in each level
+   num_sim = analysisopt.num_sim;  % # samples used in each level
    
    ssda_Data.pf_target = analysisopt.pf_target; % 0.1
    ssda_Data.rho = analysisopt.rho; % 0.8
@@ -87,7 +90,7 @@ if ssda_restart_from_step < 0
       ssda_Data.X(:,(k-block_size+1):k) = allx;
 
       % Evaluate limit-state function
-      allg = gfun(lsf,allx,'no ',probdata,analysisopt,gfundata,femodel,randomfield);
+      allg = gfun(lsf ,allx, 'no ', probdata, analysisopt, gfundata, femodel, randomfield);
       ssda_Data.G((k-block_size+1):k) = allg;
                  
       if floor( k/num_sim * 20 ) > percent_done
@@ -110,7 +113,6 @@ if ssda_restart_from_step < 0
       ssda_Data.cov_pf_step  = [];
    end
 
-
    % Find y-threshold value.
    % Carry out intermediate calculations for the final estimation
    % of the coefficient variation of the failure probability pf.
@@ -123,6 +125,7 @@ if ssda_restart_from_step < 0
    data.y = ssda_Data.G;
    
    gpm = fitrgp(data.x', data.y');
+   GPMs{1, 1} = gpm;
 end
 
 if ssda_Data.y ~= 0
@@ -131,7 +134,7 @@ if ssda_Data.y ~= 0
    ssda_Data.Nb_step = ssda_Data.Nb_step + 1; % nb_step = SubsetData.Nb_step;
    
    % Subset Simulation - Step 1 - Run simulations
-   ssda_Data = Test_ssda_step_GPinMatlab_concentrated(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
+   ssda_Data = Test_ssda_step_GPinMatlab_concentratedCompare(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
 end
 
 %% Loop until y-threshold equal to zero
@@ -153,7 +156,7 @@ while ssda_Data.y(end) ~= 0
    % Subset Simulation - Step > 1
    ssda_Data.Nb_step = ssda_Data.Nb_step + 1; % nb_step = ssda_Data.Nb_step;
 
-   ssda_Data = Test_ssda_step_GPinMatlab_concentrated(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
+   ssda_Data = Test_ssda_step_GPinMatlab_concentratedCompare(ssda_Data,num_sim,lsf,probdata,analysisopt,gfundata,femodel,randomfield);
 end
 
 % Assess approximation bounds for the coeficient of variation of the failure probability pf
