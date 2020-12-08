@@ -424,7 +424,7 @@ switch analysisopt.analysistype
          disp([' '])
          
       end % End if echo_flag
-   case 263 % ---- 262: case 262 modified (modify training samples by finding the nearest base samples with new samples)---
+   case 263 % ---- 262: case 262 modified (+ compare)----------------------------------------------------------------------
       global data;
       global gpm;
       global GPMs;

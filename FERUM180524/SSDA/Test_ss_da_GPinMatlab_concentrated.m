@@ -32,7 +32,7 @@ if ssda_restart_from_step < 0
    stdv1 = analysisopt.stdv_sim;   % std for the crude MC 
 
    analysisopt.num_sim = 300; % intial 1000
-   num_sim = analysisopt.num_sim;  % # samples used in each level
+   num_sim = analysisopt.num_sim;  % samples used in each level
    
    ssda_Data.pf_target = analysisopt.pf_target; % 0.1
    ssda_Data.rho = analysisopt.rho; % 0.8
@@ -109,6 +109,7 @@ if ssda_restart_from_step < 0
       ssda_Data.cov_pf_step  = [];
    end
 
+   
    % Find y-threshold value.
    % Carry out intermediate calculations for the final estimation
    % of the coefficient variation of the failure probability pf.
