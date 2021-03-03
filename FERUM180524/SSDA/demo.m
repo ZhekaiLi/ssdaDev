@@ -1,12 +1,20 @@
 clear; close all; clc
 %% demo
 EX2;    % call model
-global net gpopt ep;
+global net gpopt ep caseNumber;
 
 
 %% Initial function
+% 运行节，别整体运行
 
 ferum_ZK
+
+%% Case evaluation
+% 多次运行求均值
+
+analysisopt.analysistype = 261;
+analysisopt.runTimes = 10;
+caseEvaluation
 
 %% case 25: ssda + store GP model in each run to find the prediction with the least variance
 % Process
@@ -32,14 +40,15 @@ ferum_ZK
 %% case 262: case 261 modified (modify training samples by finding the nearest base samples with new samples)
 % 以 case 261 为基础，对训练集进行了优化
 % 改变了每次生成训练集的方式
-% 改变前：取总样本后 300 个样本作为训练集
-% 改变后：取总样本中，最接近新样本均值的 300 个样本作为训练集
+% 改变前：取总样本的后 300 个样本作为训练集
+% 改变后：取总样本中最接近新样本均值的 300 个样本作为训练集
 
-
-%% case 263: case 262 mofied
+%% case 263: case 262 modfied
 % 以 262 为基础，储存每次训练后的高斯模型
-% 并在预测时用不同模型进行比较, 选取标准差最低的预测值来作为
+% 并在预测时用不同模型进行比较, 选取标准差最低的预测值来作新的训练样本
 
+%% case 264: case 262 modified
+% 
 
 %% case 27: ssda modified
 % Process

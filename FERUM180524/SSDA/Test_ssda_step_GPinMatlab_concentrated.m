@@ -77,6 +77,7 @@ while size(subsetU,2) < num_sim
       % prediction by GP surrogate
       % [meanG, varG] = ogpfwd(allx');
       [meanG, stdG] = predict(gpm, allu');
+
       stdG(stdG<0) = 0;
       subtempg(subind) = meanG;  % store G
       % predicted failure probability
@@ -106,9 +107,9 @@ while size(subsetU,2) < num_sim
           % data.x = [data.x allu(:,I_evalx)];
           % data.y = [data.y newG];
 
-          [data.x, data.y] = choose_near_samples(data.x, data.y, allu(:,I_evalx), newG);
+          [data.x, data.y] = choose_near_samples(data.x, data.y, allu(:,I_evalu), newG);
           
-          fprintf('size, %d', size(newG, 2));
+          fprintf('size, %d.', size(newG, 2));
           % use the last 300 sapmles to renew the gp model
           gpm = fitrgp(data.x', data.y');
           
@@ -121,9 +122,9 @@ while size(subsetU,2) < num_sim
       
       if floor( k/Nseeds * 20 ) > percent_done
          percent_done = floor( k/Nseeds * 20 );
-        if echo_flag
+         if echo_flag
             fprintf(1,'Subset step #%d - Generation #%d - %d%% complete\n',ssda_Data.Nb_step,Nb_generation,percent_done*5);
-        end
+         end
       end
       
    end
@@ -152,6 +153,8 @@ while size(subsetU,2) < num_sim
    % collect the generated samples
    subsetU = [ subsetU subtempu ]; 
    subsetG = [ subsetG subtempg ];
+   ssda_Data.U = [ssda_Data.U, subtempu];
+   ssda_Data.G = [ssda_Data.G, subtempg ];
    % Update the seeds
    subgermG = subtempg;
    subgermU = subtempu;
@@ -160,8 +163,6 @@ while size(subsetU,2) < num_sim
 end
 
 % return results
-ssda_Data.U       = [ ssda_Data.U subsetU ];
-ssda_Data.G       = [ ssda_Data.G subsetG ];
 ssda_Data.Indices = [ ssda_Data.Indices; ssda_Data.Indices(end,2)+1 ssda_Data.Indices(end,2)+size(subsetU,2) ];
 ssda_Data.AccRate = [ ssda_Data.AccRate [ Nb_generation ; mean(GPrate); mean(DArate) ] ];
 

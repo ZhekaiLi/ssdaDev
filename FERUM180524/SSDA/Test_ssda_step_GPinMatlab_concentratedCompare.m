@@ -14,12 +14,11 @@ if isfield(analysisopt,'echo_flag')
 else
    echo_flag = 1;
 end
-flag_plot      = analysisopt.flag_plot;
-flag_plot_gen  = analysisopt.flag_plot_gen;
+flag_plot = analysisopt.flag_plot;
+flag_plot_gen = analysisopt.flag_plot_gen;
 
-rho    = ssda_Data.rho; % correlation coefficient in GCS
-% 得到训练样本的 index
-% 通过 ssda_y_threshold 函数生成
+rho = ssda_Data.rho; % correlation coefficient in GCS
+% 得到训练样本的 index (通过 ssda_y_threshold 函数生成)
 Indgerm  = ssda_Data.Indgerm(end, 1: length(find(ssda_Data.Indgerm(end, :)))); 
 subgermU = ssda_Data.U(:, Indgerm); % seeds for intermediate sampling
 subgermG = ssda_Data.G(Indgerm); % LSF value for seeds
@@ -31,12 +30,12 @@ net.Utrain  = []; % store newly generated U
 net.Gtrain  = []; % store newly generated G
 
 Nb_generation = 0; % iteration order for sequential sampling
-% 记录每次
+
+% 记录每次迭代后算法的拒绝率
 GPrate = []; % acceptance rate for GP surrogate
 DArate = []; % acceptance rate for the dalayed acceptance
 
-% generate uniform random variable for comparison
-rand_generator = analysisopt.rand_generator;
+rand_generator = analysisopt.rand_generator; % generate uniform random variable for comparison
 switch rand_generator
    case 0
       u01 = rand(Nseeds,num_sim/Nseeds-1);
@@ -44,7 +43,7 @@ switch rand_generator
       u01 = twister(Nseeds,num_sim/Nseeds-1);
 end
 
-Pr_old = ones(Nseeds,1); % predicted failure probability in seeds
+Pr_old = ones(Nseeds, 1); % predicted failure probability in seeds
 
 while size(subsetU,2) < num_sim
   
@@ -52,7 +51,7 @@ while size(subsetU,2) < num_sim
    
    % First step of SS-DA
    % Gaussian conditional sampling
-   subtempu = ss_gcs(subgermU,rho,rand_generator); 
+   subtempu = ss_gcs(subgermU, rho, rand_generator); 
 
    % Initializations
    block_size = analysisopt.block_size;
@@ -64,16 +63,16 @@ while size(subsetU,2) < num_sim
    Pr_fail = zeros(Nseeds,1);  % predicted failure probability
    I_reject = []; % indices for rejected samples
    I1_reject = []; % indices for rejected samples by GP
-   Neval = 0; % # LSF evaulations
-   % parallel computing
+   Neval = 0; % LSF evaulations
+
    while k < Nseeds
    
-      block_size = min(block_size, Nseeds - k );
+      block_size = min(block_size, Nseeds - k);
       k = k + block_size;
       subind = (k-block_size+1):k; % 区间
       
       % Second step of SS-DA
-      allu = subtempu(:,subind);
+      allu = subtempu(:, subind);
       % Transform into original space
       allx = u_to_x(allu,probdata);
       
@@ -95,12 +94,14 @@ while size(subsetU,2) < num_sim
       subtempg(subind) = meanG;  % store G
       % predicted failure probability
       % 原本都是 0
-      Pr_fail(subind) = normcdf((ssda_Data.y(end)-meanG)./stdG);
+      % ssda_Data.y(end) 即提取最后一个阈值
+      Pr_fail(subind) = normcdf((ssda_Data.y(end) - meanG) ./ stdG);
       
       % acceptance ratio of GP
-      a2 = Pr_fail(subind)./Pr_old(subind);
+      a2 = Pr_fail(subind) ./ Pr_old(subind);
       % rejected samples by GP
-      I2_reject = subind(a2 < u01(subind,Nb_generation));
+      % 这里的 u01 是一个随机数矩阵
+      I2_reject = subind(a2 < u01(subind, Nb_generation));
       % cumulative rejected samples
       I1_reject = [I1_reject I2_reject];
       
@@ -123,7 +124,7 @@ while size(subsetU,2) < num_sim
 
           [data.x, data.y] = choose_near_samples(data.x, data.y, allu(:,I_evalx), newG);
           
-          fprintf('size, %d', size(newG, 2));
+          fprintf('Size length: %d\n', size(newG, 2));
           % use the last 300 sapmles to renew the gp model
           gpm = fitrgp(data.x', data.y');
           
