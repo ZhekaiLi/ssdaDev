@@ -14,41 +14,39 @@
 
 
 if exist('analysisopt','var')
+
    if isfield(analysisopt,'echo_flag')
       echo_flag = analysisopt.echo_flag;
    else
       echo_flag = 1;
    end
+   
 end
 
 
-switch echo_flag
-   case 1
-      clc, format short e
+if echo_flag
 
-      disp('  -------------------------------------------------------------------------------------------');
-      disp('  | Welcome to FERUM_ZK Version 1.0 (Finite Element Reliability Using Matlab Modified by ZK)');
-      disp('  | Note: All the analysis options below assumes that necessary data are available in the current Matlab workspace.');
-      disp('  -------------------------------------------------------------------------------------------');
-      disp(' ');
-      disp('   0: Exit');
-      disp('   1: Help');
-      disp('  23: Subset Simulation Analysis');
-      disp('  24: Subset Simulation Analysis w/ delayed acceptance');
-      disp('  25: ssda + store GP model in each run to find the prediction with the least variance');
-      disp('  260: ssda + use Matlab RGP to replace the initial ogp method');
-      disp('  27: ssda modified');
-      disp('  261: case 260 for test (reduce the number of train samples to save time, sacrificing accuracy)');
-      disp('  262: case 261 modified (modify training samples by finding the nearest base samples with new samples)');
-      disp('  263: case 262 modified ');
-      disp(' ');
-      analysistype = input('  CHOOSE OPTION FROM THE LIST ABOVE: ');
-      analysisopt.analysistype = analysistype;
+   clc, format short e
 
-   case 2
-      disp('  -------------------------------------------------------------------------------------------');
-   otherwise
-      analysisopt.analysistype = null;
+   disp('  -------------------------------------------------------------------------------------------');
+   disp('  | Welcome to FERUM_ZK Version 1.0 (Finite Element Reliability Using Matlab Modified by ZK)');
+   disp('  | Note: All the analysis options below assumes that necessary data are available in the current Matlab workspace.');
+   disp('  -------------------------------------------------------------------------------------------');
+   disp(' ');
+   disp('   0: Exit');
+   disp('   1: Help');
+   disp('  23: Subset Simulation Analysis');
+   disp('  24: Subset Simulation Analysis w/ delayed acceptance');
+   disp('  25: ssda + store GP model in each run to find the prediction with the least variance');
+   disp('  260: ssda + use Matlab RGP to replace the initial ogp method');
+   disp('  27: ssda modified');
+   disp('  261: case 260 for test (reduce the number of train samples to save time, sacrificing accuracy)');
+   disp('  262: case 261 modified (modify training samples by finding the nearest base samples with new samples)');
+   disp('  263: case 262 modified ');
+   disp(' ');
+   analysistype = input('  CHOOSE OPTION FROM THE LIST ABOVE: ');
+   analysisopt.analysistype = analysistype;
+
 end
 
 
@@ -58,6 +56,7 @@ if analysisopt.analysistype > 2
       % This function updates probdata and gfundata before any analysis (must be run only once)
       if echo_flag
          [probdata,gfundata,analysisopt] = update_data(1,probdata,analysisopt,gfundata,femodel);
+         dummy=input('Hit a key to continue\n');
       else
          [probdata,gfundata,analysisopt] = update_data(1,probdata,analysisopt,gfundata,femodel);
       end
@@ -407,20 +406,22 @@ switch analysisopt.analysistype
          end
          disp('Reliability index beta: '), disp(ssda_result.beta)
          disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
+         disp('Reliability index beta: '), disp(ssda_result.beta)
+         disp('Number of calls to the limit-state function: '), disp(ssda_result.nfun)
          disp('Accumulated GP accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)));
          disp('Accumulated SS accept rate'), disp(sum(ssda_result.ssda_Data.AccRate(3,:)));
          disp('GP rate / SS rate'), disp(sum(ssda_result.ssda_Data.AccRate(2,:)) / sum(ssda_result.ssda_Data.AccRate(3,:)));
          disp(['...............................................................................................'])
          disp('The following parameters are now available in your current workspace:')
-         disp('ssda_result.pf = Failure probability from subset simulations')
+         disp('   ssda_result.pf         = Failure probability from subset simulations')
          if isfield(ssda_result,'cov_pf')
-            disp('ssda_result.cov_pf = Coefficient of variation for the failure probability (lower bound, upper bound)')
+            disp('   ssda_result.cov_pf     = Coefficient of variation for the failure probability (lower bound, upper bound)')
          end
-         disp('ssda_result.beta = Generalized reliability index beta from this simulation')
-         disp('ssda_result.SubsetData = Subset data structure')
-         disp('ssda_result.nfun = Number of calls to the limit-state function')
+         disp('   ssda_result.beta       = Generalized reliability index beta from this simulation')
+         disp('   ssda_result.SubsetData = Subset data structure')
+         disp('   ssda_result.nfun       = Number of calls to the limit-state function')
          disp(['..............................................................................................'])
-         disp([''])
+         disp([' '])
          
       end % End if echo_flag
    case 263 % ---- 262: case 262 modified (+ compare)----------------------------------------------------------------------

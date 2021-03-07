@@ -13,13 +13,10 @@ function [sampleX, sampleY] = choose_near_samples(baseSampleX, baseSampleY, newS
     end
 
     q = quantile(Dis, (n-m)/n);
-    index = find(Dis <= q);
+    index =  find(Dis <= q);
     newX = baseSampleX(:, index);
     newY = baseSampleY(:, index);
 
     sampleX = [newX, newSampleX];
     sampleY = [newY, newSampleY];
 end
-
-
-
